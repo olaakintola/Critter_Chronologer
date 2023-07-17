@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course3.critter.pet;
 
+import com.udacity.jdnd.course3.critter.user.EmployeeNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,4 +21,11 @@ public class PetService {
         return petRepository.findAll();
     }
 
+    public Pet getPet(long petId) {
+        return petRepository.findById(petId).orElseThrow(()->new PetNotFoundException());
+    }
+
+    public List<Pet> getPetsByOwner(long ownerId) {
+        return petRepository.findByOwnerId(ownerId);
+    }
 }

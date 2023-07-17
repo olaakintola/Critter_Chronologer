@@ -12,12 +12,10 @@ import java.util.Set;
 @Entity
 public class Employee extends Person {
 
-    @NotNull
     @Column
     @ElementCollection(targetClass = EmployeeSkill.class)
     private Set<EmployeeSkill> skills;
 
-    @NotNull
     @Column
     @ElementCollection(targetClass = DayOfWeek.class)
     private Set<DayOfWeek> daysAvailable;

@@ -2,6 +2,8 @@ package com.udacity.jdnd.course3.critter.pet;
 
 import com.udacity.jdnd.course3.critter.user.Customer;
 import com.udacity.jdnd.course3.critter.user.CustomerDTO;
+import com.udacity.jdnd.course3.critter.user.Employee;
+import com.udacity.jdnd.course3.critter.user.EmployeeDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ public class PetController {
 
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
+
         Pet newPet = new Pet();
         BeanUtils.copyProperties(petDTO, newPet);
         petService.save(newPet);
@@ -30,7 +33,11 @@ public class PetController {
 
     @GetMapping("/{petId}")
     public PetDTO getPet(@PathVariable long petId) {
-        throw new UnsupportedOperationException();
+
+        PetDTO petDTO = new PetDTO();
+        Pet retrievedPet = petService.getPet(petId);
+        BeanUtils.copyProperties(retrievedPet, petDTO);
+        return petDTO;
     }
 
     @GetMapping
@@ -48,6 +55,14 @@ public class PetController {
 
     @GetMapping("/owner/{ownerId}")
     public List<PetDTO> getPetsByOwner(@PathVariable long ownerId) {
-        throw new UnsupportedOperationException();
+
+        List<Pet> petsByOwner = petService.getPetsByOwner(ownerId);
+        List<PetDTO> petDTOList = new ArrayList<>();
+        for(Pet pet:petsByOwner){
+            PetDTO petDTO = new PetDTO();
+            BeanUtils.copyProperties(pet, petDTO);
+            petDTOList.add(petDTO);
+        }
+        return petDTOList;
     }
 }

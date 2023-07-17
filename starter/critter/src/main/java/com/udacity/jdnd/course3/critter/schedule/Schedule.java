@@ -21,7 +21,7 @@ public class Schedule {
 
     private LocalDate date;
 
-    @NotNull
+
     @Column
     @ElementCollection(targetClass = EmployeeSkill.class)
     private Set<EmployeeSkill> activities = new HashSet<>();
