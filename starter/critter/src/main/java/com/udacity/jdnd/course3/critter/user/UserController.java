@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -22,18 +23,26 @@ public class UserController {
     private UserService userService;
 
 
-
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
         Customer customer = new Customer();
         BeanUtils.copyProperties(customerDTO, customer );
         userService.saveCustomer(customer);
+        BeanUtils.copyProperties(customer, customerDTO );
         return customerDTO;
     }
 
     @GetMapping("/customer")
     public List<CustomerDTO> getAllCustomers(){
-        throw new UnsupportedOperationException();
+        List<Customer> customerList = userService.getAllCustomers();
+        List<CustomerDTO> customerDTOList = new ArrayList<>();
+        for(Customer customer: customerList){
+            CustomerDTO customerDTO = new CustomerDTO();
+            BeanUtils.copyProperties(customer, customerDTO);
+            customerDTOList.add(customerDTO);
+        }
+
+        return customerDTOList;
     }
 
     @GetMapping("/customer/pet/{petId}")
