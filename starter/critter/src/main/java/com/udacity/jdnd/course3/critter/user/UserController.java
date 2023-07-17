@@ -52,11 +52,17 @@ public class UserController {
 
     @PostMapping("/employee")
     public EmployeeDTO saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO, employee);
+        userService.saveEmployee(employee);
+        BeanUtils.copyProperties(employee, employeeDTO);
+        return employeeDTO;
     }
 
-    @PostMapping("/employee/{employeeId}")
+    @GetMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
+        Employee retrievedEmployee = userService.getEmployee(employeeId);
+
         throw new UnsupportedOperationException();
     }
 

@@ -14,12 +14,21 @@ public class UserService {
     @Autowired
     EmployeeRepository employeeRepository;
 
-    public Long saveCustomer(Customer newCustomer){
-        Customer customer = customerRepository.save(newCustomer);
-        return customer.getId();
+    public Long saveCustomer(Customer customer){
+        Customer newCustomer = customerRepository.save(customer);
+        return newCustomer.getId();
     }
 
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
+    }
+
+    public Long saveEmployee(Employee employee) {
+        Employee newEmployee = employeeRepository.save(employee);
+        return newEmployee.getId();
+    }
+
+    public Employee getEmployee(long employeeId) {
+        return employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException(employeeId));
     }
 }
