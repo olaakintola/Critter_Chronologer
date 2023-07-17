@@ -61,9 +61,10 @@ public class UserController {
 
     @GetMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
+        EmployeeDTO employeeDTO = new EmployeeDTO();
         Employee retrievedEmployee = userService.getEmployee(employeeId);
-
-        throw new UnsupportedOperationException();
+        BeanUtils.copyProperties(retrievedEmployee, employeeDTO);
+        return employeeDTO;
     }
 
     @PutMapping("/employee/{employeeId}")

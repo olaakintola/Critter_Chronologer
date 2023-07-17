@@ -29,6 +29,6 @@ public class UserService {
     }
 
     public Employee getEmployee(long employeeId) {
-        return employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException(employeeId));
+        return employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException());
     }
 }
