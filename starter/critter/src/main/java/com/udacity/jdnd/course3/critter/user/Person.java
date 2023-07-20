@@ -10,7 +10,8 @@ import javax.persistence.*;
 public class Person {
 
     @Id
-    @GeneratedValue
+    // watch out if this generation strategy becomes a bug later
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected long id;
     @Nationalized
     private String name;

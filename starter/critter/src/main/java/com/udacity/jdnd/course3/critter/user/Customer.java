@@ -2,10 +2,8 @@ package com.udacity.jdnd.course3.critter.user;
 
 import com.udacity.jdnd.course3.critter.pet.Pet;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,8 +13,10 @@ public class Customer extends Person {
 
     private String notes;
 
+    // the new ArrayList<>() partially solved a bug. not doing it will lead to a bug
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<Pet> pets;
+    private List<Pet> pets = new ArrayList<>();
+
 
     public List<Pet> getPets() {
         return pets;
@@ -41,5 +41,7 @@ public class Customer extends Person {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
+
 
 }

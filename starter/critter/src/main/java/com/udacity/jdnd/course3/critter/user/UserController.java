@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course3.critter.user;
 
+import com.udacity.jdnd.course3.critter.pet.Pet;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,16 +30,23 @@ public class UserController {
         BeanUtils.copyProperties(customerDTO, customer );
         userService.saveCustomer(customer);
         BeanUtils.copyProperties(customer, customerDTO );
+
         return customerDTO;
     }
 
     @GetMapping("/customer")
     public List<CustomerDTO> getAllCustomers(){
         List<Customer> customerList = userService.getAllCustomers();
+        System.out.println(customerList.get(0).getPets().size() + " controller");
         List<CustomerDTO> customerDTOList = new ArrayList<>();
         for(Customer customer: customerList){
             CustomerDTO customerDTO = new CustomerDTO();
+//            System.out.println(customer.getPets().size() + " size controller");
             BeanUtils.copyProperties(customer, customerDTO);
+
+            List<Long> idList = getPetIds(customer);
+            customerDTO.setPetIds(idList);
+
             customerDTOList.add(customerDTO);
         }
 
@@ -75,6 +83,17 @@ public class UserController {
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
         throw new UnsupportedOperationException();
+    }
+
+    private static List<Long> getPetIds(Customer customer) {
+        System.out.println(customer.getName());
+        System.out.println(customer.getPets().size()+" 2");
+        List<Pet> pets =  customer.getPets();
+        List<Long> idList = new ArrayList<>();
+        for(Pet pet:pets){
+            idList.add(pet.getId());
+        }
+        return idList;
     }
 
 }
