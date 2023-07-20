@@ -19,10 +19,6 @@ public class PetService {
     CustomerRepository customerRepository;
 
     public Long save(Pet pet){
-//        return customerRepository.findById(pet.getOwnerId()).map(customer -> {
-//            pet.setCustomer(customer);
-//            return petRepository.save(pet);
-//        }).orElseThrow(() -> new CustomerNotFoundException()).getId();
 
         Customer customer = customerRepository.findById(pet.getOwnerId()).orElseThrow(() -> new CustomerNotFoundException());
 
@@ -43,22 +39,6 @@ public class PetService {
     public List<Pet> getPetsByOwner(long ownerId) {
         return petRepository.findByOwnerId(ownerId);
     }
-
-
-//    //        return customerRepository.findById(pet.getOwnerId()).map(customer -> {
-////            pet.setCustomer(customer);
-////            return petRepository.save(pet);
-////        }).orElseThrow(() -> new CustomerNotFoundException()).getId();
-//
-//    Customer customer = customerRepository.findById(pet.getOwnerId()).orElseThrow(() -> new CustomerNotFoundException());
-//        customer.getPets().add(pet);
-//        customerRepository.save(customer);
-//    //        pet.setCustomer(customer);
-//    Pet newPet = petRepository.save(pet);
-//    List<Pet> pets = customerRepository.findById(pet.getOwnerId()).get().getPets();
-//    Pet lastSavedPet = pets.get(pets.size() -1 );
-//        return lastSavedPet.getId();
-////        return newPet.getId();
 
 
 }

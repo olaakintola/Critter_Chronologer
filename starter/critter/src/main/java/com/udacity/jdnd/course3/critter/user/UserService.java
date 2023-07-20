@@ -31,4 +31,8 @@ public class UserService {
     public Employee getEmployee(long employeeId) {
         return employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException());
     }
+
+    public Customer getCustomer(long petId) {
+        return customerRepository.findByPetsId(petId).get(0);
+    }
 }

@@ -14,7 +14,7 @@ public class Customer extends Person {
     private String notes;
 
     // the new ArrayList<>() partially solved a bug. not doing it will lead to a bug
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.MERGE)
     private List<Pet> pets = new ArrayList<>();
 
 

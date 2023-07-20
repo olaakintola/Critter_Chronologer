@@ -41,21 +41,22 @@ public class UserController {
         List<CustomerDTO> customerDTOList = new ArrayList<>();
         for(Customer customer: customerList){
             CustomerDTO customerDTO = new CustomerDTO();
-//            System.out.println(customer.getPets().size() + " size controller");
             BeanUtils.copyProperties(customer, customerDTO);
-
             List<Long> idList = getPetIds(customer);
             customerDTO.setPetIds(idList);
-
             customerDTOList.add(customerDTO);
         }
-
         return customerDTOList;
     }
 
     @GetMapping("/customer/pet/{petId}")
     public CustomerDTO getOwnerByPet(@PathVariable long petId){
-        throw new UnsupportedOperationException();
+        CustomerDTO customerDTO = new CustomerDTO();
+        Customer retrievedCustomer = userService.getCustomer(petId);
+        BeanUtils.copyProperties(retrievedCustomer, customerDTO);
+        List<Long> idList = getPetIds(retrievedCustomer);
+        customerDTO.setPetIds(idList);
+        return customerDTO;
     }
 
     @PostMapping("/employee")
