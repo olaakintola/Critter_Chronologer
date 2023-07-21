@@ -31,14 +31,14 @@ public class Schedule {
             name = "employee_schedule",
             joinColumns = @JoinColumn(name = "schedule_id"),
             inverseJoinColumns = @JoinColumn(name = "employee_id"))
-    private List<Employee> employees;
+    private List<Employee> employees = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
             name = "pet_schedule",
             joinColumns = @JoinColumn(name = "schedule_id"),
             inverseJoinColumns = @JoinColumn(name = "pet_id"))
-    private List<Pet> pets;
+    private List<Pet> pets = new ArrayList<>();
 
 
     public List<Employee> getEmployees() {

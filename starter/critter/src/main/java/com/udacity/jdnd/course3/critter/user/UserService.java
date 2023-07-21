@@ -47,7 +47,7 @@ public class UserService {
     }
 
     public List<Employee> findEmployeesForService(Employee employee) {
-
+        // need to create a method in the repository to get the needed employee list in one go
         List<Employee> employees = employeeRepository.findBySkillsInAndDaysAvailableIn(employee.getSkills() , employee.getDaysAvailable());
         Set<Employee> employeeSet = new HashSet<>();
         for(Employee e: employees){
