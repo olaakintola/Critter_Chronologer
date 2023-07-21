@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -42,5 +44,20 @@ public class UserService {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException());
         employee.setDaysAvailable(daysAvailable);
         employeeRepository.save(employee);
+    }
+
+    public List<Employee> findEmployeesForService(Employee employee) {
+
+        List<Employee> employees = employeeRepository.findBySkillsInAndDaysAvailableIn(employee.getSkills() , employee.getDaysAvailable());
+        Set<Employee> employeeSet = new HashSet<>();
+        for(Employee e: employees){
+            if(e.getSkills().containsAll( employee.getSkills() ) && e.getDaysAvailable().containsAll(employee.getDaysAvailable() ) ){
+                employeeSet.add(e);
+            }
+        }
+
+        List<Employee> employeeList = new ArrayList<>(employeeSet);
+        return employeeList;
+
     }
 }

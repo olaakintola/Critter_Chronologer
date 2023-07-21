@@ -37,7 +37,6 @@ public class UserController {
     @GetMapping("/customer")
     public List<CustomerDTO> getAllCustomers(){
         List<Customer> customerList = userService.getAllCustomers();
-        System.out.println(customerList.get(0).getPets().size() + " controller");
         List<CustomerDTO> customerDTOList = new ArrayList<>();
         for(Customer customer: customerList){
             CustomerDTO customerDTO = new CustomerDTO();
@@ -83,7 +82,18 @@ public class UserController {
 
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO, employee);
+        employee.getDaysAvailable().add(employeeDTO.getDate().getDayOfWeek());
+        List<Employee> employeeList = userService.findEmployeesForService(employee);
+        List<EmployeeDTO> employeeDTOList = new ArrayList<>();
+        for(Employee emp: employeeList){
+            EmployeeDTO empDTO = new EmployeeDTO();
+            BeanUtils.copyProperties(emp, empDTO);
+            employeeDTOList.add(empDTO);
+        }
+
+        return employeeDTOList;
     }
 
     private static List<Long> getPetIds(Customer customer) {

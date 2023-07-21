@@ -6,19 +6,20 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 public class Employee extends Person {
 
-    @Column
+    @Column(name = "skills")
     @ElementCollection(targetClass = EmployeeSkill.class)
-    private Set<EmployeeSkill> skills;
+    private Set<EmployeeSkill> skills = new HashSet<>();
 
     @Column
     @ElementCollection(targetClass = DayOfWeek.class)
-    private Set<DayOfWeek> daysAvailable;
+    private Set<DayOfWeek> daysAvailable = new HashSet<>();
 
     @ManyToMany(mappedBy = "employees", fetch = FetchType.LAZY)
     private List<Schedule> schedule = new ArrayList<>();
