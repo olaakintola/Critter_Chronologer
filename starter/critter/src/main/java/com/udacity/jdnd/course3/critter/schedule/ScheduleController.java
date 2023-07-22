@@ -40,20 +40,18 @@ public class ScheduleController {
         for(Long petId: petIds){
             pets.add( petService.getPet(petId) );
         }
-        schedule.setPets(pets);
 
+        schedule.setPets(pets);
         List<Employee> employees = new ArrayList<>();
         List<Long> employeeIds = scheduleDTO.getEmployeeIds();
+
         for(Long empId: employeeIds){
             employees.add( userService.getEmployee(empId ) );
         }
+
         schedule.setEmployees(employees);
-
         scheduleService.saveSchedule(schedule);
-
-
         BeanUtils.copyProperties(schedule, scheduleDTO );
-
         return scheduleDTO;
     }
 
@@ -64,11 +62,16 @@ public class ScheduleController {
         for(Schedule schedule: scheduleList){
             ScheduleDTO scheduleDTO = new ScheduleDTO();
             BeanUtils.copyProperties(schedule, scheduleDTO);
+            List<Long> petIds = getPetIdS(schedule);
+            scheduleDTO.setPetIds(petIds);
+            List<Long> employeeIds = getEmployeeIds(schedule);
+            scheduleDTO.setEmployeeIds(employeeIds);
             scheduleDTOList.add(scheduleDTO);
         }
 
         return scheduleDTOList;
     }
+
 
     @GetMapping("/pet/{petId}")
     public List<ScheduleDTO> getScheduleForPet(@PathVariable long petId) {
@@ -83,5 +86,23 @@ public class ScheduleController {
     @GetMapping("/customer/{customerId}")
     public List<ScheduleDTO> getScheduleForCustomer(@PathVariable long customerId) {
         throw new UnsupportedOperationException();
+    }
+
+    private static List<Long> getPetIdS(Schedule schedule) {
+        List<Pet> pets =  schedule.getPets();
+        List<Long> idList = new ArrayList<>();
+        for(Pet pet:pets){
+            idList.add(pet.getId());
+        }
+        return idList;
+    }
+
+    private List<Long> getEmployeeIds(Schedule schedule) {
+        List<Employee> employees =  schedule.getEmployees();
+        List<Long> idList = new ArrayList<>();
+        for(Employee emp:employees){
+            idList.add(emp.getId());
+        }
+        return idList;
     }
 }
