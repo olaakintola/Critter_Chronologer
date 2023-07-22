@@ -75,12 +75,39 @@ public class ScheduleController {
 
     @GetMapping("/pet/{petId}")
     public List<ScheduleDTO> getScheduleForPet(@PathVariable long petId) {
-        throw new UnsupportedOperationException();
+        List<Schedule> scheduleList = scheduleService.getSchedulesForPet(petId);
+        List<ScheduleDTO> scheduleDTOList = new ArrayList<>();
+
+        for(Schedule schedule: scheduleList){
+            ScheduleDTO scheduleDTO = new ScheduleDTO();
+            BeanUtils.copyProperties(schedule, scheduleDTO);
+            List<Long> petIds = getPetIdS(schedule);
+            scheduleDTO.setPetIds(petIds);
+            List<Long> employeeIds = getEmployeeIds(schedule);
+            scheduleDTO.setEmployeeIds(employeeIds);
+            scheduleDTOList.add(scheduleDTO);
+        }
+
+        return scheduleDTOList;
     }
 
     @GetMapping("/employee/{employeeId}")
     public List<ScheduleDTO> getScheduleForEmployee(@PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        List<Schedule> scheduleList = scheduleService.getSchedulesForEmployee(employeeId);
+        List<ScheduleDTO> scheduleDTOList = new ArrayList<>();
+
+        for(Schedule schedule: scheduleList){
+            ScheduleDTO scheduleDTO = new ScheduleDTO();
+            BeanUtils.copyProperties(schedule, scheduleDTO);
+            List<Long> petIds = getPetIdS(schedule);
+            scheduleDTO.setPetIds(petIds);
+            List<Long> employeeIds = getEmployeeIds(schedule);
+            scheduleDTO.setEmployeeIds(employeeIds);
+            scheduleDTOList.add(scheduleDTO);
+        }
+
+        return scheduleDTOList;
+
     }
 
     @GetMapping("/customer/{customerId}")

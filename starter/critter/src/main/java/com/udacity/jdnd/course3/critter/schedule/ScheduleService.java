@@ -19,4 +19,12 @@ public class ScheduleService {
     public List<Schedule> getAllSchedules() {
         return scheduleRepository.findAll();
     }
+
+    public List<Schedule> getSchedulesForEmployee(long employeeId) {
+        return scheduleRepository.findByEmployees_Id(employeeId);
+    }
+
+    public List<Schedule> getSchedulesForPet(long petId) {
+        return scheduleRepository.findByPets_Id(petId);
+    }
 }
