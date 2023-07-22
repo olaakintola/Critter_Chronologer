@@ -21,7 +21,6 @@ public class Schedule {
 
     private LocalDate date;
 
-
     @Column
     @ElementCollection(targetClass = EmployeeSkill.class)
     private Set<EmployeeSkill> activities = new HashSet<>();
@@ -39,7 +38,6 @@ public class Schedule {
             joinColumns = @JoinColumn(name = "schedule_id"),
             inverseJoinColumns = @JoinColumn(name = "pet_id"))
     private List<Pet> pets = new ArrayList<>();
-
 
     public List<Employee> getEmployees() {
         return employees;
@@ -64,7 +62,6 @@ public class Schedule {
     public void setId(long id) {
         this.id = id;
     }
-
 
     public LocalDate getDate() {
         return date;

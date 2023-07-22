@@ -13,7 +13,7 @@ public class Customer extends Person {
 
     private String notes;
 
-    // the new ArrayList<>() partially solved a bug. not doing it will lead to a bug
+    // should i add orphanremoval=true
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.MERGE)
     private List<Pet> pets = new ArrayList<>();
 
