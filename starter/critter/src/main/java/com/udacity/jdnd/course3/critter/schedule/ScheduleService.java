@@ -27,4 +27,10 @@ public class ScheduleService {
     public List<Schedule> getSchedulesForPet(long petId) {
         return scheduleRepository.findByPets_Id(petId);
     }
+
+    public List<Schedule> getSchedulesForCustomer(long customerId) {
+        // change this line
+        return scheduleRepository.findByPets_OwnerId(customerId);
+
+    }
 }

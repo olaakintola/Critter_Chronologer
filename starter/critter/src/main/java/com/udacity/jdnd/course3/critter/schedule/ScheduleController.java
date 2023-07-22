@@ -112,7 +112,20 @@ public class ScheduleController {
 
     @GetMapping("/customer/{customerId}")
     public List<ScheduleDTO> getScheduleForCustomer(@PathVariable long customerId) {
-        throw new UnsupportedOperationException();
+        List<Schedule> scheduleList = scheduleService.getSchedulesForCustomer(customerId);
+        List<ScheduleDTO> scheduleDTOList = new ArrayList<>();
+
+        for(Schedule schedule: scheduleList){
+            ScheduleDTO scheduleDTO = new ScheduleDTO();
+            BeanUtils.copyProperties(schedule, scheduleDTO);
+            List<Long> petIds = getPetIdS(schedule);
+            scheduleDTO.setPetIds(petIds);
+            List<Long> employeeIds = getEmployeeIds(schedule);
+            scheduleDTO.setEmployeeIds(employeeIds);
+            scheduleDTOList.add(scheduleDTO);
+        }
+
+        return scheduleDTOList;
     }
 
     private static List<Long> getPetIdS(Schedule schedule) {
