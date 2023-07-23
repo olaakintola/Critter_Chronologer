@@ -18,14 +18,16 @@ public class PetService {
     @Autowired
     CustomerRepository customerRepository;
 
-    public Long save(Pet pet){
+    public Pet save(Pet pet){
 
         Customer customer = customerRepository.findById(pet.getOwnerId()).orElseThrow(() -> new CustomerNotFoundException());
 
-        customer.getPets().add(pet);
         pet.setCustomer(customer);
-        Pet newPet = petRepository.save(pet);
-        return newPet.getId();
+        customer.getPets().add(pet);
+        customerRepository.save(customer);
+        List<Pet> savedPets =  customer.getPets();
+        Pet nPet =  savedPets.get(savedPets.size() - 1 );
+        return nPet;
     }
 
     public List<Pet> getAllPets() {

@@ -12,7 +12,7 @@ import java.util.List;
 public class Pet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
     @NotNull
@@ -21,7 +21,6 @@ public class Pet {
 
     private String name;
 
-    // maybe this can be got rid of as it duplicates customer id
     private long ownerId;
 
     private LocalDate birthDate;
@@ -31,7 +30,7 @@ public class Pet {
     @ManyToMany(mappedBy = "pets")
     private List<Schedule> schedules;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
