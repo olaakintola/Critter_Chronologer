@@ -151,6 +151,12 @@ public class ScheduleController {
         return employeeDTO;
     }
 
+    @DeleteMapping("/{scheduleId}/employees/{employeeId}")
+    public void deleteEmployeeFromSchedule(@PathVariable long scheduleId, @PathVariable long employeeId){
+        scheduleService.deleteEmployeeFromSchedule(scheduleId, employeeId);
+    }
+
+
 
 
     @DeleteMapping

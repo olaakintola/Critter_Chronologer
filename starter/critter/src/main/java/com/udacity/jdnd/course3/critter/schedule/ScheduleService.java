@@ -99,4 +99,11 @@ public class ScheduleService {
         }).orElseThrow(() -> new ScheduleNotFoundException());
         return employee;
     }
+
+    public void deleteEmployeeFromSchedule(long scheduleId, long employeeId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new ScheduleNotFoundException());
+
+        schedule.removeEmployee(employeeId);
+        scheduleRepository.save(schedule);
+    }
 }
