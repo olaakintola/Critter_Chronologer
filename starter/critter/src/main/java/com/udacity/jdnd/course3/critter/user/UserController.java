@@ -106,6 +106,11 @@ public class UserController {
         userService.deleteSingleCustomer(customerId);
     }
 
+    @DeleteMapping("/employee")
+    public void deleteAllEmployees(){
+        userService.deleteAllEmployees();
+    }
+
     private static List<Long> getPetIds(Customer customer) {
         System.out.println(customer.getName());
         System.out.println(customer.getPets().size()+" 2");

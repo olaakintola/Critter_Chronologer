@@ -69,4 +69,8 @@ public class UserService {
     public void deleteSingleCustomer(long customerId) {
         customerRepository.deleteById(customerId);
     }
+
+    public void deleteAllEmployees() {
+        employeeRepository.deleteAll();
+    }
 }
