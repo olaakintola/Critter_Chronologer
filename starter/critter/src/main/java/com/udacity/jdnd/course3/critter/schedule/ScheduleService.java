@@ -37,4 +37,8 @@ public class ScheduleService {
     public void deleteAllSchedules() {
         scheduleRepository.deleteAll();
     }
+
+    public void deleteSingleSchedule(long scheduleId) {
+        scheduleRepository.deleteById(scheduleId);
+    }
 }

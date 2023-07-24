@@ -133,6 +133,11 @@ public class ScheduleController {
         scheduleService.deleteAllSchedules();
     }
 
+    @DeleteMapping("/{scheduleId}")
+    public void deleteSchedule(@PathVariable long scheduleId){
+        scheduleService.deleteSingleSchedule(scheduleId);
+    }
+
 
 
     private static List<Long> getPetIdS(Schedule schedule) {
