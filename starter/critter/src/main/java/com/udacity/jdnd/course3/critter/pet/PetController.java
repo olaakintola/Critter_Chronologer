@@ -65,4 +65,16 @@ public class PetController {
         }
         return petDTOList;
     }
+
+    @PutMapping("/{petId}")
+    public void updatePet(@RequestBody PetDTO petDTO, @PathVariable long petId) {
+        Pet pet = new Pet();
+        BeanUtils.copyProperties(petDTO, pet );
+        petService.updateSinglePet(pet, petId);
+    }
+
+    @DeleteMapping("/{petId}")
+    public void deletePet(@PathVariable long petId){
+        petService.deleteSinglePet(petId);
+    }
 }
