@@ -96,6 +96,11 @@ public class UserController {
         return employeeDTOList;
     }
 
+    @DeleteMapping("/customer")
+    public void deleteAllCustomers(){
+        userService.deleteAllCustomers();
+    }
+
     private static List<Long> getPetIds(Customer customer) {
         System.out.println(customer.getName());
         System.out.println(customer.getPets().size()+" 2");

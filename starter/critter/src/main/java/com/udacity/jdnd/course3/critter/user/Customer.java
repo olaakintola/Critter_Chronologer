@@ -13,7 +13,7 @@ public class Customer extends Person {
 
     private String notes;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL )
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true )
     private List<Pet> pets = new ArrayList<>();
 
 

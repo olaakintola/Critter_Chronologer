@@ -62,4 +62,7 @@ public class UserService {
 
     }
 
+    public void deleteAllCustomers() {
+        customerRepository.deleteAll();
+    }
 }
