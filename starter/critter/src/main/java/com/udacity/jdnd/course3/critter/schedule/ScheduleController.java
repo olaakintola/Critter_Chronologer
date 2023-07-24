@@ -5,6 +5,7 @@ import com.udacity.jdnd.course3.critter.pet.PetDTO;
 import com.udacity.jdnd.course3.critter.pet.PetService;
 import com.udacity.jdnd.course3.critter.user.Customer;
 import com.udacity.jdnd.course3.critter.user.Employee;
+import com.udacity.jdnd.course3.critter.user.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.user.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,6 +141,17 @@ public class ScheduleController {
     public void deletePetFromSchedule(@PathVariable long scheduleId, @PathVariable long petId){
         scheduleService.deletePetFromSchedule(scheduleId, petId);
     }
+
+    @PostMapping("/{scheduleId}/employees")
+    public EmployeeDTO addEmployee(@PathVariable long scheduleId, @RequestBody EmployeeDTO employeeDTO){
+        Employee emp = new Employee();
+        BeanUtils.copyProperties(employeeDTO, emp, "id");
+        Employee newlyAddedEmployee = scheduleService.addEmployeeToSchedule(scheduleId, emp);
+        BeanUtils.copyProperties(newlyAddedEmployee, employeeDTO);
+        return employeeDTO;
+    }
+
+
 
     @DeleteMapping
     public void deleteAllSchedules(){

@@ -3,6 +3,9 @@ package com.udacity.jdnd.course3.critter.schedule;
 import com.udacity.jdnd.course3.critter.pet.Pet;
 import com.udacity.jdnd.course3.critter.pet.PetNotFoundException;
 import com.udacity.jdnd.course3.critter.pet.PetRepository;
+import com.udacity.jdnd.course3.critter.user.Employee;
+import com.udacity.jdnd.course3.critter.user.EmployeeNotFoundException;
+import com.udacity.jdnd.course3.critter.user.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,8 @@ public class ScheduleService {
     ScheduleRepository scheduleRepository;
     @Autowired
     private PetRepository petRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     public Long saveSchedule(Schedule schedule) {
         return scheduleRepository.save(schedule).getId();
@@ -70,8 +75,28 @@ public class ScheduleService {
 
     public void deletePetFromSchedule(long scheduleId, long petId) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new ScheduleNotFoundException());
-        
+
         schedule.removePet(petId);
         scheduleRepository.save(schedule);
+    }
+
+    public Employee addEmployeeToSchedule(long scheduleId, Employee employee) {
+        Employee emp = scheduleRepository.findById(scheduleId).map(schedule -> {
+            long employeeId = employee.getId();
+
+            // employee exists
+            if(employeeId != 0L){
+                Employee _employee = employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException() );
+                schedule.addEmployee(_employee);
+                scheduleRepository.save(schedule);
+                return _employee;
+            }
+
+            //create and add new employee
+            schedule.addEmployee(employee);
+            return employeeRepository.save(employee);
+
+        }).orElseThrow(() -> new ScheduleNotFoundException());
+        return employee;
     }
 }
