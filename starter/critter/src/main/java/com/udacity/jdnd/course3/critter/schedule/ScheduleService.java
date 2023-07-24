@@ -66,4 +66,12 @@ public class ScheduleService {
 
         return pet;
     }
+
+
+    public void deletePetFromSchedule(long scheduleId, long petId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new ScheduleNotFoundException());
+        
+        schedule.removePet(petId);
+        scheduleRepository.save(schedule);
+    }
 }

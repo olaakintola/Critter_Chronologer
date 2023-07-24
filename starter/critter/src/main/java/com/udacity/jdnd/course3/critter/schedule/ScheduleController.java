@@ -136,6 +136,11 @@ public class ScheduleController {
         return petDTO;
     }
 
+    @DeleteMapping("/{scheduleId}/pets/{petId}")
+    public void deletePetFromSchedule(@PathVariable long scheduleId, @PathVariable long petId){
+        scheduleService.deletePetFromSchedule(scheduleId, petId);
+    }
+
     @DeleteMapping
     public void deleteAllSchedules(){
         scheduleService.deleteAllSchedules();
