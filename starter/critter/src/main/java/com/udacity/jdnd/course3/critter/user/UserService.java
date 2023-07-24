@@ -77,4 +77,11 @@ public class UserService {
     public void deleteSingleEmployee(long employeeId) {
         employeeRepository.deleteById(employeeId);
     }
+
+    public void updateSingleCustomer(Customer customer, long customerId) {
+        Customer retrievedCustomer = customerRepository.findById(customerId).orElseThrow(() -> new CustomerNotFoundException());
+        retrievedCustomer.setPhoneNumber(customer.getPhoneNumber() );
+        retrievedCustomer.setNotes(customer.getNotes() );
+        customerRepository.save(retrievedCustomer);
+    }
 }

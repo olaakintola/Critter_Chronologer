@@ -116,6 +116,13 @@ public class UserController {
         userService.deleteSingleEmployee(employeeId);
     }
 
+    @PutMapping("/customer/{customerId}")
+    public void updateCustomer(@RequestBody CustomerDTO customerDTO, @PathVariable long employeeId) {
+        Customer customer = new Customer();
+        BeanUtils.copyProperties(customerDTO, customer );
+        userService.updateSingleCustomer(customer, employeeId);
+    }
+
     private static List<Long> getPetIds(Customer customer) {
         System.out.println(customer.getName());
         System.out.println(customer.getPets().size()+" 2");
