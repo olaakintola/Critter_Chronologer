@@ -111,6 +111,11 @@ public class UserController {
         userService.deleteAllEmployees();
     }
 
+    @DeleteMapping("/employee/{employeeId}")
+    public void deleteEmployee(@PathVariable long employeeId){
+        userService.deleteSingleEmployee(employeeId);
+    }
+
     private static List<Long> getPetIds(Customer customer) {
         System.out.println(customer.getName());
         System.out.println(customer.getPets().size()+" 2");
