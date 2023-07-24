@@ -1,9 +1,10 @@
 package com.udacity.jdnd.course3.critter.pet;
 
+import com.udacity.jdnd.course3.critter.schedule.ScheduleNotFoundException;
+import com.udacity.jdnd.course3.critter.schedule.ScheduleRepository;
 import com.udacity.jdnd.course3.critter.user.Customer;
 import com.udacity.jdnd.course3.critter.user.CustomerNotFoundException;
 import com.udacity.jdnd.course3.critter.user.CustomerRepository;
-import com.udacity.jdnd.course3.critter.user.EmployeeNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,8 @@ public class PetService {
 
     @Autowired
     CustomerRepository customerRepository;
+    @Autowired
+    private ScheduleRepository scheduleRepository;
 
     public Pet save(Pet pet){
 
@@ -51,5 +54,12 @@ public class PetService {
 
     public void deleteSinglePet(long petId) {
         petRepository.deleteById(petId);
+    }
+
+    public List<Pet> getAllPetsByScheduleId(long scheduleId) {
+        if(!scheduleRepository.existsById(scheduleId)){
+            throw new ScheduleNotFoundException();
+        }
+        return petRepository.findPetsBySchedulesId(scheduleId);
     }
 }

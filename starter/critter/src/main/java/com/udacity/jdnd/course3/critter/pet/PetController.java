@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course3.critter.pet;
 
+import com.udacity.jdnd.course3.critter.schedule.ScheduleNotFoundException;
 import com.udacity.jdnd.course3.critter.user.Customer;
 import com.udacity.jdnd.course3.critter.user.CustomerDTO;
 import com.udacity.jdnd.course3.critter.user.Employee;
@@ -77,4 +78,19 @@ public class PetController {
     public void deletePet(@PathVariable long petId){
         petService.deleteSinglePet(petId);
     }
+
+    @GetMapping("/schedule/{scheduleId}")
+    public List<PetDTO> getAllPetsByScheduleId(@PathVariable long scheduleId) {
+        List<Pet> petList = petService.getAllPetsByScheduleId(scheduleId);
+        List<PetDTO> petDTOList = new ArrayList<>();
+        for(Pet pet:petList){
+            PetDTO petDTO = new PetDTO();
+            BeanUtils.copyProperties(pet, petDTO);
+            petDTOList.add(petDTO);
+        }
+        return petDTOList;
+
+    }
+
+
 }

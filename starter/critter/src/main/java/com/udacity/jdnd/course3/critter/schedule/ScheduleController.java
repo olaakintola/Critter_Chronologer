@@ -139,7 +139,6 @@ public class ScheduleController {
     }
 
 
-
     private static List<Long> getPetIdS(Schedule schedule) {
         List<Pet> pets =  schedule.getPets();
         List<Long> idList = new ArrayList<>();
@@ -148,6 +147,7 @@ public class ScheduleController {
         }
         return idList;
     }
+
 
     private List<Long> getEmployeeIds(Schedule schedule) {
         List<Employee> employees =  schedule.getEmployees();
