@@ -33,4 +33,8 @@ public class ScheduleService {
         return scheduleRepository.findByPets_OwnerId(customerId);
 
     }
+
+    public void deleteAllSchedules() {
+        scheduleRepository.deleteAll();
+    }
 }

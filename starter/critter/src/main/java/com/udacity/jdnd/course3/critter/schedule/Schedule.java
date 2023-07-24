@@ -39,6 +39,34 @@ public class Schedule {
             inverseJoinColumns = @JoinColumn(name = "pet_id"))
     private List<Pet> pets = new ArrayList<>();
 
+    public void addEmployee(Employee employee){
+        this.employees.add(employee);
+        employee.getSchedule().add(this);
+    }
+
+    public void removeEmployee(long employeeId){
+        Employee employee = this.employees.stream().filter(emp -> emp.getId() == employeeId)
+                .findFirst().orElse(null);
+        if(employee != null){
+            this.employees.remove(employee);
+            employee.getSchedule().remove(this);
+        }
+    }
+
+    public void addPet(Pet pet){
+        this.pets.add(pet);
+        pet.getSchedules().add(this);
+    }
+
+    public void removePet(long petId){
+        Pet pet = this.pets.stream().filter(p -> p.getId() == petId)
+                .findFirst().orElse(null);
+        if(pet != null){
+            this.pets.remove(pet);
+            pet.getSchedules().remove(this);
+        }
+    }
+
     public List<Employee> getEmployees() {
         return employees;
     }

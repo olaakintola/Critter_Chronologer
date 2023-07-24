@@ -128,6 +128,13 @@ public class ScheduleController {
         return scheduleDTOList;
     }
 
+    @DeleteMapping
+    public void deleteAllSchedules(){
+        scheduleService.deleteAllSchedules();
+    }
+
+
+
     private static List<Long> getPetIdS(Schedule schedule) {
         List<Pet> pets =  schedule.getPets();
         List<Long> idList = new ArrayList<>();
