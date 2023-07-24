@@ -107,7 +107,6 @@ public class ScheduleController {
         }
 
         return scheduleDTOList;
-
     }
 
     @GetMapping("/customer/{customerId}")
@@ -126,6 +125,15 @@ public class ScheduleController {
         }
 
         return scheduleDTOList;
+    }
+
+    @PostMapping("/{scheduleId}/pets")
+    public PetDTO addPet(@PathVariable long scheduleId, @RequestBody PetDTO petDTO){
+        Pet newPet = new Pet();
+        BeanUtils.copyProperties(petDTO, newPet, "id");
+        Pet newlyAddedPet = scheduleService.addPetToSchedule(scheduleId, newPet);
+        BeanUtils.copyProperties(newlyAddedPet, petDTO);
+        return petDTO;
     }
 
     @DeleteMapping
