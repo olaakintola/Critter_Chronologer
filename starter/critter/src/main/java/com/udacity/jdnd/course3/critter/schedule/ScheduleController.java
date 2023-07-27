@@ -128,6 +128,16 @@ public class ScheduleController {
         return scheduleDTOList;
     }
 
+    @GetMapping("/timeslot")
+    public ScheduleDTO fillScheduleOpenSlotWithEmployee(@RequestBody ScheduleRequestDTO scheduleRequestDTO){
+        Schedule schedule = new Schedule();
+        BeanUtils.copyProperties(scheduleRequestDTO, schedule);
+        scheduleService.fillScheduleOpenSlot(schedule);
+        ScheduleDTO scheduleDTO = new ScheduleDTO();
+        BeanUtils.copyProperties(schedule, scheduleDTO);
+        return scheduleDTO;
+    }
+
     @PostMapping("/{scheduleId}/pets")
     public PetDTO addPet(@PathVariable long scheduleId, @RequestBody PetDTO petDTO){
         Pet newPet = new Pet();

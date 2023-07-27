@@ -5,6 +5,7 @@ import com.udacity.jdnd.course3.critter.schedule.Schedule;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -23,6 +24,20 @@ public class Employee extends Person {
 
     @ManyToMany(mappedBy = "employees", fetch = FetchType.LAZY)
     private List<Schedule> schedule = new ArrayList<>();
+
+    private LocalDateTime startTime;
+
+    private LocalDateTime endTime;
+
+    private boolean allocated;
+
+    public boolean isAllocated() {
+        return allocated;
+    }
+
+    public void setAllocated(boolean allocated) {
+        this.allocated = allocated;
+    }
 
     public List<Schedule> getSchedule() {
         return schedule;
@@ -46,5 +61,21 @@ public class Employee extends Person {
 
     public void setDaysAvailable(Set<DayOfWeek> daysAvailable) {
         this.daysAvailable = daysAvailable;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 }

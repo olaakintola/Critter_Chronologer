@@ -1,6 +1,9 @@
 package com.udacity.jdnd.course3.critter.user;
 
 import com.udacity.jdnd.course3.critter.pet.Pet;
+import com.udacity.jdnd.course3.critter.schedule.Schedule;
+import com.udacity.jdnd.course3.critter.schedule.ScheduleDTO;
+import com.udacity.jdnd.course3.critter.schedule.ScheduleRequestDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -95,6 +98,17 @@ public class UserController {
 
         return employeeDTOList;
     }
+
+    @GetMapping("/employee/fill-timeslot")
+    public EmployeeDTO fillScheduleOpenSlotWithEmployee(@RequestBody EmployeeRequestDTO employeeRequestDTO){
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeRequestDTO, employee);
+        Employee employee1 = userService.fillScheduleOpenSlot(employee);
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        BeanUtils.copyProperties(employee1, employeeDTO);
+        return employeeDTO;
+    }
+
 
     @DeleteMapping("/customer")
     public void deleteAllCustomers(){

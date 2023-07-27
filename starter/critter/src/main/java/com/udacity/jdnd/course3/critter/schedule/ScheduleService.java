@@ -9,6 +9,8 @@ import com.udacity.jdnd.course3.critter.user.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -105,5 +107,43 @@ public class ScheduleService {
 
         schedule.removeEmployee(employeeId);
         scheduleRepository.save(schedule);
+    }
+
+    public void fillScheduleOpenSlot(Schedule schedule) {
+        HashSet<DayOfWeek> daysWithOpenSlots = new HashSet<>();
+        String availableDay = schedule.getDate().getDayOfWeek().name();
+        switch (availableDay){
+            case "SUNDAY":
+                daysWithOpenSlots.add(DayOfWeek.SUNDAY);
+                break;
+            case "MONDAY":
+                daysWithOpenSlots.add(DayOfWeek.MONDAY);
+                break;
+            case "TUESDAY":
+                daysWithOpenSlots.add(DayOfWeek.TUESDAY);
+                break;
+            case "WEDNESDAY":
+                daysWithOpenSlots.add(DayOfWeek.WEDNESDAY);
+                break;
+            case "THURSDAY":
+                daysWithOpenSlots.add(DayOfWeek.THURSDAY);
+                break;
+            case "FRIDAY":
+                daysWithOpenSlots.add(DayOfWeek.FRIDAY);
+                break;
+            default:
+                daysWithOpenSlots.add(DayOfWeek.SATURDAY);
+        }
+
+        List<Schedule> scheduleList = scheduleRepository.
+                findByEmployees_DaysAvailableEqualAndEmployees_Allocated( daysWithOpenSlots, false);
+
+        Employee employee = scheduleList.get(0).getEmployees().get(0);
+        employee.setStartTime(schedule.getStartTime());
+        employee.setEndTime(schedule.getEndTime());
+        employee.setAllocated(true);
+        schedule.addEmployee(employee);
+        scheduleRepository.save(schedule);
+
     }
 }

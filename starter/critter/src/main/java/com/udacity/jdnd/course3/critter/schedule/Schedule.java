@@ -7,6 +7,7 @@ import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -20,6 +21,11 @@ public class Schedule {
     private long id;
 
     private LocalDate date;
+
+    // scrap starttime and endtime
+    private LocalDateTime startTime;
+
+    private LocalDateTime endTime;
 
     @Column
     @ElementCollection(targetClass = EmployeeSkill.class)
@@ -105,5 +111,21 @@ public class Schedule {
 
     public void setActivities(Set<EmployeeSkill> activities) {
         this.activities = activities;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 }
