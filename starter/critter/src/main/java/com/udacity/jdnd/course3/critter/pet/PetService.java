@@ -62,4 +62,21 @@ public class PetService {
         }
         return petRepository.findPetsBySchedulesId(scheduleId);
     }
+
+    public void savePetBehavoiur(Pet pet) {
+        List<Pet> petList = petRepository.findAll();
+        boolean found = false;
+        for (Pet p: petList){
+            if(p.getType() == pet.getType()){
+                p.addPetAndActivity(pet.getType().name(), pet.getActivity().name());
+                petRepository.save(p);
+                found = true;
+            }
+        }
+
+        if(!found){
+            petRepository.save(pet);
+        }
+
+    }
 }

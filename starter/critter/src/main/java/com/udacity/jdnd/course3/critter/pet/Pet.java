@@ -2,11 +2,14 @@ package com.udacity.jdnd.course3.critter.pet;
 
 import com.udacity.jdnd.course3.critter.schedule.Schedule;
 import com.udacity.jdnd.course3.critter.user.Customer;
+import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 public class Pet {
@@ -33,6 +36,34 @@ public class Pet {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private Customer customer;
+
+    Map<String, String> petActivityMap = new HashMap<>();
+
+    private EmployeeSkill activity;
+
+    public EmployeeSkill getActivity() {
+        return activity;
+    }
+
+    public void setActivity(EmployeeSkill activity) {
+        this.activity = activity;
+    }
+
+    public void addPetAndActivity(String pet, String activity){
+        if(petActivityMap.containsKey(pet) ){
+            petActivityMap.replace(pet, activity);
+        }
+
+        petActivityMap.put(pet, activity);
+        //this could lead to a bug
+        type = PetType.valueOf(pet);
+    }
+
+    public String displayPetActivity(){
+        String petActivity = "";
+        String petName = type.name();
+        return petActivityMap.get(petName);
+    }
 
     public List<Schedule> getSchedules() {
         return schedules;

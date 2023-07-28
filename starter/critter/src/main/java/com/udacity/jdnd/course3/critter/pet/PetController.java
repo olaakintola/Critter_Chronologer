@@ -74,6 +74,14 @@ public class PetController {
         petService.updateSinglePet(pet, petId);
     }
 
+    @PostMapping("/addPetBehaviour")
+    public void addPetBehavioour(@RequestBody PetRequestDTO petRequestDTO){
+        Pet pet = new Pet();
+        BeanUtils.copyProperties(petRequestDTO, pet);
+        petService.savePetBehavoiur(pet);
+    }
+
+
     @DeleteMapping("/{petId}")
     public void deletePet(@PathVariable long petId){
         petService.deleteSinglePet(petId);
