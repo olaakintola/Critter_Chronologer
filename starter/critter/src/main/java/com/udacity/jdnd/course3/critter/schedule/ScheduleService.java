@@ -136,7 +136,7 @@ public class ScheduleService {
         }
 
         List<Schedule> scheduleList = scheduleRepository.
-                findByEmployees_DaysAvailableEqualAndEmployees_Allocated( daysWithOpenSlots, false);
+                findByEmployees_DaysAvailableInAndEmployees_Allocated( daysWithOpenSlots, false);
 
         Employee employee = scheduleList.get(0).getEmployees().get(0);
         employee.setStartTime(schedule.getStartTime());

@@ -37,6 +37,7 @@ public class Pet {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    @ElementCollection(targetClass=String.class)
     Map<String, String> petActivityMap = new HashMap<>();
 
     private EmployeeSkill activity;

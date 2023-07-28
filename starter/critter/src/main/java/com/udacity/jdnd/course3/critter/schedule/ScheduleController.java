@@ -166,9 +166,6 @@ public class ScheduleController {
         scheduleService.deleteEmployeeFromSchedule(scheduleId, employeeId);
     }
 
-
-
-
     @DeleteMapping
     public void deleteAllSchedules(){
         scheduleService.deleteAllSchedules();
