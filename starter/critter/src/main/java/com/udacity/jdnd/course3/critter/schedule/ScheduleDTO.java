@@ -1,7 +1,8 @@
 package com.udacity.jdnd.course3.critter.schedule;
 
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
-
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -14,7 +15,9 @@ public class ScheduleDTO {
     private long id;
     private List<Long> employeeIds;
     private List<Long> petIds;
+    @NotNull(message = "Date is mandatory")
     private LocalDate date;
+    @NotEmpty(message = "Activities cannot be empty")
     private Set<EmployeeSkill> activities;
 
     public long getId(){

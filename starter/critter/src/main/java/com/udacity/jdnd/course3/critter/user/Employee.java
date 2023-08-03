@@ -3,7 +3,7 @@ package com.udacity.jdnd.course3.critter.user;
 import com.udacity.jdnd.course3.critter.schedule.Schedule;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+//import javax.validation.constraints.NotNull;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

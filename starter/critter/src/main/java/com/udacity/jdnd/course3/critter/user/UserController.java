@@ -1,9 +1,6 @@
 package com.udacity.jdnd.course3.critter.user;
 
 import com.udacity.jdnd.course3.critter.pet.Pet;
-import com.udacity.jdnd.course3.critter.schedule.Schedule;
-import com.udacity.jdnd.course3.critter.schedule.ScheduleDTO;
-import com.udacity.jdnd.course3.critter.schedule.ScheduleRequestDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +19,12 @@ import java.util.Set;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+    
+    private final UserService userService;
 
-    @Autowired
-    private UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
 
     @PostMapping("/customer")

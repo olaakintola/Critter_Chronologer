@@ -3,8 +3,8 @@ package com.udacity.jdnd.course3.critter.schedule;
 import com.udacity.jdnd.course3.critter.pet.Pet;
 import com.udacity.jdnd.course3.critter.user.Employee;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 public class Schedule {

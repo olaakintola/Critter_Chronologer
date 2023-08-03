@@ -5,7 +5,7 @@ import com.udacity.jdnd.course3.critter.user.Customer;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+//import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +18,7 @@ public class Pet {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
-    @NotNull
+//    @NotNull
     @Enumerated(EnumType.STRING)
     private PetType type;
 

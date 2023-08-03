@@ -3,14 +3,13 @@ package com.udacity.jdnd.course3.critter.schedule;
 import com.udacity.jdnd.course3.critter.pet.Pet;
 import com.udacity.jdnd.course3.critter.pet.PetDTO;
 import com.udacity.jdnd.course3.critter.pet.PetService;
-import com.udacity.jdnd.course3.critter.user.Customer;
 import com.udacity.jdnd.course3.critter.user.Employee;
 import com.udacity.jdnd.course3.critter.user.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.user.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,36 +20,40 @@ import java.util.List;
 @RequestMapping("/schedule")
 public class ScheduleController {
 
-    @Autowired
-    ScheduleService scheduleService;
+    private final ScheduleService scheduleService;
 
-    @Autowired
-    PetService petService;
+    private final PetService petService;
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
+
+    public ScheduleController(ScheduleService scheduleService, PetService petService, UserService userService) {
+        this.scheduleService = scheduleService;
+        this.petService = petService;
+        this.userService = userService;
+    }
 
 
     @PostMapping
-    public ScheduleDTO createSchedule(@RequestBody ScheduleDTO scheduleDTO) {
+    public ScheduleDTO createSchedule(@Valid @RequestBody ScheduleDTO scheduleDTO) {
+
         Schedule schedule = new Schedule();
         BeanUtils.copyProperties(scheduleDTO, schedule);
 
-        List<Pet> pets = new ArrayList<>();
-        List<Long> petIds = scheduleDTO.getPetIds();
-        for(Long petId: petIds){
-            pets.add( petService.getPet(petId) );
-        }
+//        List<Pet> pets = new ArrayList<>();
+//        List<Long> petIds = scheduleDTO.getPetIds();
+//        for(Long petId: petIds){
+//            pets.add( petService.getPet(petId) );
+//        }
+//        schedule.setPets(pets);
+//
+//        List<Employee> employees = new ArrayList<>();
+//        List<Long> employeeIds = scheduleDTO.getEmployeeIds();
+//
+//        for(Long empId: employeeIds){
+//            employees.add( userService.getEmployee(empId ) );
+//        }
+//        schedule.setEmployees(employees);
 
-        schedule.setPets(pets);
-        List<Employee> employees = new ArrayList<>();
-        List<Long> employeeIds = scheduleDTO.getEmployeeIds();
-
-        for(Long empId: employeeIds){
-            employees.add( userService.getEmployee(empId ) );
-        }
-
-        schedule.setEmployees(employees);
         scheduleService.saveSchedule(schedule);
         BeanUtils.copyProperties(schedule, scheduleDTO );
         return scheduleDTO;

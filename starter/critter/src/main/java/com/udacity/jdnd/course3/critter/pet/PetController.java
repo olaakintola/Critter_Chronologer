@@ -1,10 +1,5 @@
 package com.udacity.jdnd.course3.critter.pet;
 
-import com.udacity.jdnd.course3.critter.schedule.ScheduleNotFoundException;
-import com.udacity.jdnd.course3.critter.user.Customer;
-import com.udacity.jdnd.course3.critter.user.CustomerDTO;
-import com.udacity.jdnd.course3.critter.user.Employee;
-import com.udacity.jdnd.course3.critter.user.EmployeeDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +14,11 @@ import java.util.List;
 @RequestMapping("/pet")
 public class PetController {
 
-    @Autowired
-    PetService petService;
+    private final PetService petService;
+
+    public PetController(PetService petService) {
+        this.petService = petService;
+    }
 
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
