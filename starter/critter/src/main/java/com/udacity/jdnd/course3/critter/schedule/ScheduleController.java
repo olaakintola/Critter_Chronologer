@@ -39,20 +39,20 @@ public class ScheduleController {
         Schedule schedule = new Schedule();
         BeanUtils.copyProperties(scheduleDTO, schedule);
 
-//        List<Pet> pets = new ArrayList<>();
-//        List<Long> petIds = scheduleDTO.getPetIds();
-//        for(Long petId: petIds){
-//            pets.add( petService.getPet(petId) );
-//        }
-//        schedule.setPets(pets);
-//
-//        List<Employee> employees = new ArrayList<>();
-//        List<Long> employeeIds = scheduleDTO.getEmployeeIds();
-//
-//        for(Long empId: employeeIds){
-//            employees.add( userService.getEmployee(empId ) );
-//        }
-//        schedule.setEmployees(employees);
+        List<Pet> pets = new ArrayList<>();
+        List<Long> petIds = scheduleDTO.getPetIds();
+        for(Long petId: petIds){
+            pets.add( petService.getPet(petId) );
+        }
+        schedule.setPets(pets);
+
+        List<Employee> employees = new ArrayList<>();
+        List<Long> employeeIds = scheduleDTO.getEmployeeIds();
+
+        for(Long empId: employeeIds){
+            employees.add( userService.getEmployee(empId ) );
+        }
+        schedule.setEmployees(employees);
 
         scheduleService.saveSchedule(schedule);
         BeanUtils.copyProperties(schedule, scheduleDTO );

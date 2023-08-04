@@ -13,11 +13,14 @@ import java.util.Set;
  */
 public class ScheduleDTO {
     private long id;
+
+    @NotEmpty(message = "EmployeeIds cannot be empty")
     private List<Long> employeeIds;
+
+    @NotEmpty(message = "PetIds cannot be empty")
     private List<Long> petIds;
     @NotNull(message = "Date is mandatory")
     private LocalDate date;
-    @NotEmpty(message = "Activities cannot be empty")
     private Set<EmployeeSkill> activities;
 
     public long getId(){
