@@ -1,5 +1,7 @@
 package com.udacity.jdnd.course3.critter.pet;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 /**
@@ -10,6 +12,7 @@ public class PetDTO {
     private long id;
     private PetType type;
     private String name;
+    @Min(value = 1, message = "OwnerId must be greater than or equal to 1")
     private long ownerId;
     private LocalDate birthDate;
     private String notes;

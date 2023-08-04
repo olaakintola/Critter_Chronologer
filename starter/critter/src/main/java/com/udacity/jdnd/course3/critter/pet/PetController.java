@@ -4,6 +4,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class PetController {
     }
 
     @PostMapping
-    public PetDTO savePet(@RequestBody PetDTO petDTO) {
+    public PetDTO savePet(@Valid @RequestBody PetDTO petDTO) {
 
         Pet newPet = new Pet();
         BeanUtils.copyProperties(petDTO, newPet, "id");
