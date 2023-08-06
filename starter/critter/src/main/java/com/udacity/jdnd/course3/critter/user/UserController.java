@@ -99,15 +99,15 @@ public class UserController {
         return employeeDTOList;
     }
 
-    @GetMapping("/employee/fill-timeslot")
-    public EmployeeDTO fillScheduleOpenSlotWithEmployee(@RequestBody EmployeeRequestDTO employeeRequestDTO){
-        Employee employee = new Employee();
-        BeanUtils.copyProperties(employeeRequestDTO, employee);
-        Employee employee1 = userService.fillScheduleOpenSlot(employee);
-        EmployeeDTO employeeDTO = new EmployeeDTO();
-        BeanUtils.copyProperties(employee1, employeeDTO);
-        return employeeDTO;
-    }
+//    @GetMapping("/employee/fill-timeslot")
+//    public EmployeeDTO fillScheduleOpenSlotWithEmployee(@RequestBody EmployeeRequestDTO employeeRequestDTO){
+//        Employee employee = new Employee();
+//        BeanUtils.copyProperties(employeeRequestDTO, employee);
+//        Employee employee1 = userService.fillScheduleOpenSlot(employee);
+//        EmployeeDTO employeeDTO = new EmployeeDTO();
+//        BeanUtils.copyProperties(employee1, employeeDTO);
+//        return employeeDTO;
+//    }
 
 
     @DeleteMapping("/customer")

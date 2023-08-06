@@ -15,6 +15,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
     List<Schedule> findByPets_OwnerId(long customerId);
 
-    List<Schedule> findByEmployees_DaysAvailableInAndEmployees_Allocated(Set<DayOfWeek> daysAvailable , Boolean allocated);
+//    List<Schedule> findByEmployees_DaysAvailableInAndEmployees_Allocated(Set<DayOfWeek> daysAvailable , Boolean allocated);
 
+    List<Schedule> findSchedulesByWorkDay(DayOfWeek workDay);
 }

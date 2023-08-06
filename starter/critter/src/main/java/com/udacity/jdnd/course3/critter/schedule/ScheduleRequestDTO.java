@@ -6,18 +6,18 @@ import java.time.LocalDateTime;
 // delete class
 public class ScheduleRequestDTO {
 
-    private LocalDate date;
+    private DayOfWeek workDay;
 
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;
 
-    public LocalDate getDate() {
-        return date;
+    public DayOfWeek getWorkDay() {
+        return workDay;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setWorkDay(DayOfWeek workDay ) {
+        this.workDay = workDay;
     }
 
     public LocalDateTime getStartTime() {

@@ -84,8 +84,10 @@ public class UserService {
         customerRepository.save(retrievedCustomer);
     }
 
-    public Employee fillScheduleOpenSlot(Employee employee) {
+//    public Employee fillScheduleOpenSlot(Employee employee) {
+//
+//        return employee;
+//    }
 
-        return employee;
-    }
+
 }

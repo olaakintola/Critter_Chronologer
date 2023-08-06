@@ -1,17 +1,16 @@
 package com.udacity.jdnd.course3.critter.schedule;
 
 import com.udacity.jdnd.course3.critter.pet.Pet;
+import com.udacity.jdnd.course3.critter.pet.PetType;
 import com.udacity.jdnd.course3.critter.user.Employee;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Schedule {
@@ -19,7 +18,7 @@ public class Schedule {
     @GeneratedValue
     private long id;
 
-    private LocalDate date;
+    private DayOfWeek workDay;
 
     // scrap starttime and endtime
     private LocalDateTime startTime;
@@ -43,6 +42,33 @@ public class Schedule {
             joinColumns = @JoinColumn(name = "schedule_id"),
             inverseJoinColumns = @JoinColumn(name = "pet_id"))
     private List<Pet> pets = new ArrayList<>();
+
+    @ElementCollection(targetClass = Employee.class)
+    Map<String, List<Employee> >timeSlotMap = new HashMap<>();
+
+    public Map<String, List<Employee>> getTimeSlotMap() {
+        return timeSlotMap;
+    }
+
+    public void setTimeSlotMap(Map<String, List<Employee>> timeSlotMap) {
+        this.timeSlotMap = timeSlotMap;
+    }
+
+    //    public void addPetAndActivity(String pet, String activity){
+//        if(petActivityMap.containsKey(pet) ){
+//            petActivityMap.replace(pet, activity);
+//        }
+//
+//        petActivityMap.put(pet, activity);
+//        //this could lead to a bug
+//        type = PetType.valueOf(pet);
+//    }
+//
+//    public String displayPetActivity(){
+//        String petActivity = "";
+//        String petName = type.name();
+//        return petActivityMap.get(petName);
+//    }
 
     public void addEmployee(Employee employee){
         this.employees.add(employee);
@@ -96,12 +122,12 @@ public class Schedule {
         this.id = id;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public DayOfWeek getWorkDay() {
+        return workDay;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setWorkDay(DayOfWeek workDay) {
+        this.workDay = workDay;
     }
 
     public Set<EmployeeSkill> getActivities() {
