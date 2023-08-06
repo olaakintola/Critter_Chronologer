@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course3.critter.activities;
 
+import com.udacity.jdnd.course3.critter.pet.Pet;
 import com.udacity.jdnd.course3.critter.pet.PetNotFoundException;
 import com.udacity.jdnd.course3.critter.pet.PetRepository;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,11 @@ public class ActivityService {
         }).orElseThrow(() -> new PetNotFoundException());
 
         return retrievedActivity;
+    }
+
+    public void deleteBehaviourFromPet(long petId, long activityId) {
+        Pet pet = petRepository.findById(petId).orElseThrow(() -> new PetNotFoundException());
+        pet.removePetActivity(activityId);
+        petRepository.save(pet);
     }
 }

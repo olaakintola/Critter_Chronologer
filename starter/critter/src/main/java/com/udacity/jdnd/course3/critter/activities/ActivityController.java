@@ -26,6 +26,11 @@ public class ActivityController {
         return activityDTO;
     }
 
+    @DeleteMapping("/pets/{petId}/behaviours/{activityId}")
+    public void deleteBehaviourFromPet(@PathVariable long petId, @PathVariable long activityId){
+        activityService.deleteBehaviourFromPet(petId, activityId);
+    }
+
 
 
 }
