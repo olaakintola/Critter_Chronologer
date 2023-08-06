@@ -34,7 +34,11 @@ public class Pet {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY,
+    cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     @JoinTable(name = "pet_activities",
         joinColumns = { @JoinColumn(name = "pet_id") },
         inverseJoinColumns = { @JoinColumn(name = "activity_id") })

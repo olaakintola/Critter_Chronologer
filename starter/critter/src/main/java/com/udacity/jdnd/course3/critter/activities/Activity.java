@@ -3,10 +3,7 @@ package com.udacity.jdnd.course3.critter.activities;
 import com.udacity.jdnd.course3.critter.pet.Pet;
 import com.udacity.jdnd.course3.critter.schedule.Schedule;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -16,7 +13,10 @@ public class Activity {
     @GeneratedValue
     private long id;
 
-    @ManyToMany(mappedBy = "petActivities")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE},
+            mappedBy = "petActivities")
     private List<Pet> pets;
 
     public long getId() {
