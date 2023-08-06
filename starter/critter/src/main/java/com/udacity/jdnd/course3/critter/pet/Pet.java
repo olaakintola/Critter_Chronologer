@@ -44,9 +44,6 @@ public class Pet {
         inverseJoinColumns = { @JoinColumn(name = "activity_id") })
     private Set<Activity> petActivities = new HashSet<>();
 
-    @ElementCollection(targetClass=String.class)
-    Map<String, String> petActivityMap = new HashMap<>();
-
     private EmployeeSkill activity;
 
     public EmployeeSkill getActivity() {
@@ -55,22 +52,6 @@ public class Pet {
 
     public void setActivity(EmployeeSkill activity) {
         this.activity = activity;
-    }
-
-    public void addPetAndActivity(String pet, String activity){
-        if(petActivityMap.containsKey(pet) ){
-            petActivityMap.replace(pet, activity);
-        }
-
-        petActivityMap.put(pet, activity);
-        //this could lead to a bug
-        type = PetType.valueOf(pet);
-    }
-
-    public String displayPetActivity(){
-        String petActivity = "";
-        String petName = type.name();
-        return petActivityMap.get(petName);
     }
 
     public void addPetActivity(Activity activity){
