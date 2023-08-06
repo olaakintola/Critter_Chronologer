@@ -1,14 +1,13 @@
 package com.udacity.jdnd.course3.critter.pet;
 
+import com.udacity.jdnd.course3.critter.activities.Activity;
 import com.udacity.jdnd.course3.critter.schedule.Schedule;
 import com.udacity.jdnd.course3.critter.user.Customer;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 public class Pet {
@@ -34,6 +33,12 @@ public class Pet {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private Customer customer;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "pet_activities",
+        joinColumns = { @JoinColumn(name = "pet_id") },
+        inverseJoinColumns = { @JoinColumn(name = "activity_id") })
+    private Set<Activity> petActivities = new HashSet<>();
 
     @ElementCollection(targetClass=String.class)
     Map<String, String> petActivityMap = new HashMap<>();
@@ -62,6 +67,21 @@ public class Pet {
         String petActivity = "";
         String petName = type.name();
         return petActivityMap.get(petName);
+    }
+
+    public void addPetActivity(Activity activity){
+        this.petActivities.add(activity);
+        activity.getPets().add(this);
+    }
+
+    public void removePetActivity(long petActivityId){
+        Activity petActivity = this.petActivities.stream().filter( activity -> activity.getId() == petActivityId)
+                .findFirst().orElse(null);
+        if(petActivity != null){
+            this.petActivities.remove(petActivity);
+            petActivity.getPets().remove(this);
+        }
+
     }
 
     public List<Schedule> getSchedules() {
