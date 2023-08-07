@@ -34,6 +34,7 @@ public class ScheduleController {
 
 
     @PostMapping
+    @ResponseBody
     public ScheduleDTO createSchedule(@Valid @RequestBody ScheduleDTO scheduleDTO) {
 
         Schedule schedule = new Schedule();

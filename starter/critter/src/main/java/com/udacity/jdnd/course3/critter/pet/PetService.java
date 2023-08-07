@@ -19,7 +19,7 @@ public class PetService {
     @Autowired
     CustomerRepository customerRepository;
     @Autowired
-    private ScheduleRepository scheduleRepository;
+    ScheduleRepository scheduleRepository;
 
     public Pet save(Pet pet){
 

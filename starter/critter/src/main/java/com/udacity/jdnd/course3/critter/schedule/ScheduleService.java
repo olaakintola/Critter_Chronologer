@@ -21,9 +21,9 @@ public class ScheduleService {
     @Autowired
     ScheduleRepository scheduleRepository;
     @Autowired
-    private PetRepository petRepository;
+    PetRepository petRepository;
     @Autowired
-    private EmployeeRepository employeeRepository;
+    EmployeeRepository employeeRepository;
 
     public Long saveSchedule(Schedule schedule) {
         return scheduleRepository.save(schedule).getId();

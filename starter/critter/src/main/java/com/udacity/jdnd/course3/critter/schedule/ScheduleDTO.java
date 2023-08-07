@@ -14,7 +14,6 @@ import java.util.Set;
  */
 public class ScheduleDTO {
     private long id;
-
     @NotEmpty(message = "EmployeeIds cannot be empty")
     private List<Long> employeeIds;
 
@@ -23,6 +22,8 @@ public class ScheduleDTO {
     @NotNull(message = "Day is mandatory")
     private DayOfWeek workDay;
     private Set<EmployeeSkill> activities;
+
+    private LocalDate date;
 
     public long getId(){
         return id;
@@ -62,5 +63,13 @@ public class ScheduleDTO {
 
     public void setActivities(Set<EmployeeSkill> activities) {
         this.activities = activities;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }

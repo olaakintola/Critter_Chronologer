@@ -43,6 +43,7 @@ public class Schedule {
             inverseJoinColumns = @JoinColumn(name = "pet_id"))
     private List<Pet> pets = new ArrayList<>();
 
+    private LocalDate date;
     @ElementCollection(targetClass = Employee.class)
     Map<String, List<Employee> >timeSlotMap = new HashMap<>();
 
@@ -152,5 +153,13 @@ public class Schedule {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }
