@@ -2,6 +2,8 @@ package com.udacity.jdnd.course3.critter;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.udacity.jdnd.course3.critter.activities.ActivityController;
+import com.udacity.jdnd.course3.critter.activities.ActivityDTO;
 import com.udacity.jdnd.course3.critter.pet.PetController;
 import com.udacity.jdnd.course3.critter.pet.PetDTO;
 import com.udacity.jdnd.course3.critter.pet.PetType;
@@ -41,6 +43,9 @@ public class CritterFunctionalTest {
 
     @Autowired
     private ScheduleController scheduleController;
+
+    @Autowired
+    private ActivityController activityController;
 
     @Test
     public void testCreateCustomer(){
@@ -241,6 +246,54 @@ public class CritterFunctionalTest {
         List<ScheduleDTO> scheds2c = scheduleController.getScheduleForCustomer(userController.getOwnerByPet(sched2.getPetIds().get(0)).getId());
         compareSchedules(sched2, scheds2c.get(0));
         compareSchedules(sched3, scheds2c.get(1));
+    }
+
+    @Test
+    public void testChangePetBehaviour() {
+        String behaviour = "Walking";
+        CustomerDTO customerDTO = createCustomerDTO();
+        CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
+
+        PetDTO petDTO = createPetDTO();
+        petDTO.setOwnerId(newCustomer.getId());
+        PetDTO newPet = petController.savePet(petDTO);
+
+        ActivityDTO activityDTO = createActivityDTO(behaviour);
+        ActivityDTO retrievedActivty = activityController.addActivity(newPet.getId(), activityDTO);
+
+        PetDTO retrievedPet = petController.getPet(newPet.getId());
+        Assertions.assertEquals(newPet.getId() , retrievedActivty.getPets().get(0).getId() );
+        Assertions.assertEquals(behaviour, retrievedActivty.getBehaviour() );
+
+        activityController.deleteBehaviourFromPet(newPet.getId(), retrievedActivty.getId() );
+        behaviour = "Jump";
+        ActivityDTO activityDTO2 = createActivityDTO(behaviour);
+        ActivityDTO retrievedActivty2 = activityController.addActivity(newPet.getId(), activityDTO2 );
+
+        Assertions.assertEquals(behaviour, retrievedActivty2.getBehaviour() );
+
+
+
+//        //make sure pet contains customer id
+//        PetDTO retrievedPet = petController.getPet(newPet.getId());
+//        Assertions.assertEquals(retrievedPet.getId(), newPet.getId());
+//        Assertions.assertEquals(retrievedPet.getOwnerId(), newCustomer.getId());
+//
+//        //make sure you can retrieve pets by owner
+//        List<PetDTO> pets = petController.getPetsByOwner(newCustomer.getId());
+//        Assertions.assertEquals(newPet.getId(), pets.get(0).getId());
+//        Assertions.assertEquals(newPet.getName(), pets.get(0).getName());
+//
+//        //check to make sure customer now also contains pet
+//        CustomerDTO retrievedCustomer = userController.getAllCustomers().get(0);
+//        Assertions.assertTrue(retrievedCustomer.getPetIds() != null && retrievedCustomer.getPetIds().size() > 0);
+//        Assertions.assertEquals(retrievedCustomer.getPetIds().get(0), retrievedPet.getId());
+    }
+
+    private ActivityDTO createActivityDTO(String behaviour) {
+        ActivityDTO activityDTO = new ActivityDTO();
+        activityDTO.setBehaviour(behaviour);
+        return activityDTO;
     }
 
     private static EmployeeDTO createEmployeeDTO() {

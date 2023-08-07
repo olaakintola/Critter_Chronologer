@@ -44,6 +44,14 @@ public class Pet {
         inverseJoinColumns = { @JoinColumn(name = "activity_id") })
     private Set<Activity> petActivities = new HashSet<>();
 
+    public Set<Activity> getPetActivities() {
+        return petActivities;
+    }
+
+    public void setPetActivities(Set<Activity> petActivities) {
+        this.petActivities = petActivities;
+    }
+
     private EmployeeSkill activity;
 
     public EmployeeSkill getActivity() {
