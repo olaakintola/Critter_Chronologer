@@ -19,11 +19,11 @@ import static org.hamcrest.Matchers.hasSize;
 @AutoConfigureMockMvc
 public class CritterControllerIntegrationTest {
 
-    @Autowired
-    ScheduleController scheduleController;
-
-    @Autowired
-    PetController petController;
+//    @Autowired
+//    ScheduleController scheduleController;
+//
+//    @Autowired
+//    PetController petController;
 
     @Autowired
     MockMvc mockMvc;
