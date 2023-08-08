@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -120,10 +121,18 @@ public class ScheduleService {
         List<Employee> scheduledEmployees = retrievedSchedule.getEmployees();
         Map<String, List<Employee> > timeSlotMap = retrievedSchedule.getTimeSlotMap();
         String startTime = schedule.getStartTime().getHour()+":"+schedule.getStartTime().getMinute();
+        String endTime = schedule.getEndTime().getHour()+":"+schedule.getEndTime().getMinute();
+        int sTime = schedule.getStartTime().getHour();
+        int eTime = schedule.getEndTime().getHour();
+
+        Employee openEmployee = null;
+
         for(Employee emp: scheduledEmployees){
             if(!timeSlotMap.containsKey(startTime) ){
                 timeSlotMap.put(startTime, new ArrayList<>() );
                 timeSlotMap.get(startTime).add(emp);
+                openEmployee = emp;
+
                 // you might need to find somewhere to add endtime
                 break;
             }else{
@@ -131,8 +140,32 @@ public class ScheduleService {
                     continue;
                 }
                 timeSlotMap.get(startTime).add(emp);
+                openEmployee = emp;
             }
         }
 
+        if(eTime - sTime > 1){
+            fillMoreTimeSlotsWithEmployee(timeSlotMap, eTime, sTime, schedule, openEmployee);
+        }
+
+
+    }
+
+    private void fillMoreTimeSlotsWithEmployee(Map<String, List<Employee>> timeSlotMap, int endTime,
+                                               int startTime, Schedule schedule, Employee employee) {
+        int workingHours = endTime - startTime;
+        int incrementTimeBy = 1;
+
+        while(workingHours > 1){
+            LocalDateTime t = schedule.getStartTime().plusHours(incrementTimeBy);
+            String slotToFill = t.getHour() + ":" + t.getMinute();
+            if(!timeSlotMap.containsKey(slotToFill) ){
+                timeSlotMap.put(slotToFill, new ArrayList<>() );
+                timeSlotMap.get(slotToFill).add(employee);
+            }
+
+            workingHours--;
+            incrementTimeBy++;
+        }
     }
 }

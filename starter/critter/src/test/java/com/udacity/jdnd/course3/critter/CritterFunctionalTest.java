@@ -299,7 +299,7 @@ public class CritterFunctionalTest {
         ScheduleRequestDTO scheduleRequestDTO = new ScheduleRequestDTO();
         scheduleRequestDTO.setWorkDay(DayOfWeek.MONDAY);
         LocalDateTime startTime = LocalDateTime.of(2023, 8, 07, 10, 00);
-        LocalDateTime endTime = LocalDateTime.of(2023, 8, 07, 11, 00);
+        LocalDateTime endTime = LocalDateTime.of(2023, 8, 07, 12, 00);
         scheduleRequestDTO.setStartTime(startTime);
         scheduleRequestDTO.setEndTime(endTime);
 
