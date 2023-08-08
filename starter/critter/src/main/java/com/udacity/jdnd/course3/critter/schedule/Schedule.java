@@ -17,14 +17,10 @@ public class Schedule {
     @Id
     @GeneratedValue
     private long id;
-
     private DayOfWeek workDay;
-
-    // scrap starttime and endtime
     private LocalDateTime startTime;
-
     private LocalDateTime endTime;
-
+    private LocalDate date;
     @Column
     @ElementCollection(targetClass = EmployeeSkill.class)
     private Set<EmployeeSkill> activities = new HashSet<>();
@@ -43,9 +39,8 @@ public class Schedule {
             inverseJoinColumns = @JoinColumn(name = "pet_id"))
     private List<Pet> pets = new ArrayList<>();
 
-    private LocalDate date;
     @ElementCollection(targetClass = Employee.class)
-    Map<String, List<Employee> >timeSlotMap = new HashMap<>();
+    Map<String, List<Employee>> timeSlotMap = new HashMap<>();
 
     public Map<String, List<Employee>> getTimeSlotMap() {
         return timeSlotMap;

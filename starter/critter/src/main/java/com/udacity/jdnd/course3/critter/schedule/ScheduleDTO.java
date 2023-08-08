@@ -1,11 +1,14 @@
 package com.udacity.jdnd.course3.critter.schedule;
 
+import com.udacity.jdnd.course3.critter.user.Employee;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -24,6 +27,8 @@ public class ScheduleDTO {
     private Set<EmployeeSkill> activities;
 
     private LocalDate date;
+
+    Map<String, List<Employee>> timeSlotMap = new HashMap<>();
 
     public long getId(){
         return id;
@@ -71,5 +76,13 @@ public class ScheduleDTO {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public Map<String, List<Employee>> getTimeSlotMap() {
+        return timeSlotMap;
+    }
+
+    public void setTimeSlotMap(Map<String, List<Employee>> timeSlotMap) {
+        this.timeSlotMap = timeSlotMap;
     }
 }

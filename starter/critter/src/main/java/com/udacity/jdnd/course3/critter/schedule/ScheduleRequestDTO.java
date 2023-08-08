@@ -2,6 +2,7 @@ package com.udacity.jdnd.course3.critter.schedule;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.DayOfWeek;
 
 // delete class
 public class ScheduleRequestDTO {

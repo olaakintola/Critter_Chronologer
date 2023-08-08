@@ -9,6 +9,7 @@ import com.udacity.jdnd.course3.critter.pet.PetDTO;
 import com.udacity.jdnd.course3.critter.pet.PetType;
 import com.udacity.jdnd.course3.critter.schedule.ScheduleController;
 import com.udacity.jdnd.course3.critter.schedule.ScheduleDTO;
+import com.udacity.jdnd.course3.critter.schedule.ScheduleRequestDTO;
 import com.udacity.jdnd.course3.critter.user.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -261,17 +264,51 @@ public class CritterFunctionalTest {
         ActivityDTO activityDTO = createActivityDTO(behaviour);
         ActivityDTO retrievedActivty = activityController.addActivity(newPet.getId(), activityDTO);
 
+        // test which behaviour is relevant to a particular pet
         PetDTO retrievedPet = petController.getPet(newPet.getId());
         Assertions.assertEquals(newPet.getId() , retrievedActivty.getPets().get(0).getId() );
         Assertions.assertEquals(behaviour, retrievedActivty.getBehaviour() );
 
+        // test change of a specific pet behaviour
         activityController.deleteBehaviourFromPet(newPet.getId(), retrievedActivty.getId() );
         behaviour = "Jump";
         ActivityDTO activityDTO2 = createActivityDTO(behaviour);
         ActivityDTO retrievedActivty2 = activityController.addActivity(newPet.getId(), activityDTO2 );
-
         Assertions.assertEquals(behaviour, retrievedActivty2.getBehaviour() );
-        
+
+    }
+
+    @Test
+    public void testFindOpenEmployeeForSpecificTimeSlot() {
+        EmployeeDTO employeeTemp = createEmployeeDTO();
+        employeeTemp.setDaysAvailable(Sets.newHashSet(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY));
+        EmployeeDTO employeeDTO = userController.saveEmployee(employeeTemp);
+        CustomerDTO customerDTO = userController.saveCustomer(createCustomerDTO());
+        PetDTO petTemp = createPetDTO();
+        petTemp.setOwnerId(customerDTO.getId());
+        PetDTO petDTO = petController.savePet(petTemp);
+
+        LocalDate date = LocalDate.of(2019, 12, 25);
+        List<Long> petList = Lists.newArrayList(petDTO.getId());
+        List<Long> employeeList = Lists.newArrayList(employeeDTO.getId());
+        Set<EmployeeSkill> skillSet =  Sets.newHashSet(EmployeeSkill.PETTING);
+
+        scheduleController.createSchedule(createScheduleDTO(petList, employeeList, date, skillSet));
+
+        //make a request for an open time slot
+        ScheduleRequestDTO scheduleRequestDTO = new ScheduleRequestDTO();
+        scheduleRequestDTO.setWorkDay(DayOfWeek.MONDAY);
+        LocalDateTime startTime = LocalDateTime.of(2023, 8, 07, 10, 00);
+        LocalDateTime endTime = LocalDateTime.of(2023, 8, 07, 11, 00);
+        scheduleRequestDTO.setStartTime(startTime);
+        scheduleRequestDTO.setEndTime(endTime);
+
+        // employee created would fill available time slot that is vacant
+        ScheduleDTO scheduleDTO = scheduleController.fillScheduleOpenSlotWithEmployee( scheduleRequestDTO );
+        scheduleDTO.getTimeSlotMap();
+        Map<String, List<Employee>> retrievedTimeSlotMap = scheduleController.getAllSchedules().get(0).getTimeSlotMap();
+        Assertions.assertEquals(  employeeTemp.getName() , retrievedTimeSlotMap.get(""+startTime.getHour()+ ":" + startTime.getMinute() ).get(0).getName());
+
     }
 
     private ActivityDTO createActivityDTO(String behaviour) {

@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course3.critter.schedule;
 
+import com.google.common.collect.Sets;
 import com.udacity.jdnd.course3.critter.pet.Pet;
 import com.udacity.jdnd.course3.critter.pet.PetNotFoundException;
 import com.udacity.jdnd.course3.critter.pet.PetRepository;
@@ -10,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ScheduleService {
@@ -112,44 +110,16 @@ public class ScheduleService {
     }
 
     public void fillScheduleOpenSlot(Schedule schedule) {
-//        HashSet<DayOfWeek> daysWithOpenSlots = new HashSet<>();
-//        String availableDay = schedule.getDate().getDayOfWeek().name();
-//        String availableDay = schedule.getWorkDay();
+        Set<DayOfWeek> daysAvailable = new HashSet<>();
+        DayOfWeek employeesWorkingDays = schedule.getWorkDay();
+        daysAvailable.add(employeesWorkingDays);
 
-//        switch (availableDay){
-//            case "SUNDAY":
-//                daysWithOpenSlots.add(DayOfWeek.SUNDAY);
-//                break;
-//            case "MONDAY":
-//                daysWithOpenSlots.add(DayOfWeek.MONDAY);
-//                break;
-//            case "TUESDAY":
-//                daysWithOpenSlots.add(DayOfWeek.TUESDAY);
-//                break;
-//            case "WEDNESDAY":
-//                daysWithOpenSlots.addDayOfWeek.WEDNESDAY;
-//                break;
-//            case "THURSDAY":
-//                daysWithOpenSlots.add(DayOfWeek.THURSDAY);
-//                break;
-//            case "FRIDAY":
-//                daysWithOpenSlots.add(DayOfWeek.FRIDAY);
-//                break;
-//            default:
-//                daysWithOpenSlots.add(DayOfWeek.SATURDAY);
-//        }
-
-//        List<Schedule> scheduleList = scheduleRepository.
-//                findByEmployees_DaysAvailableInAndEmployees_Allocated( daysWithOpenSlots, false);
-
-//        scheduleRepository.findByEmployees_Schedule
-
-        List<Schedule> scheduleList = scheduleRepository.findSchedulesByWorkDay(schedule.getWorkDay() );
+        List<Schedule> scheduleList = scheduleRepository.findSchedulesByEmployeesDaysAvailableIn(daysAvailable);
 
         Schedule retrievedSchedule = scheduleList.get(0);
         List<Employee> scheduledEmployees = retrievedSchedule.getEmployees();
         Map<String, List<Employee> > timeSlotMap = retrievedSchedule.getTimeSlotMap();
-        String startTime = String.valueOf(schedule.getStartTime());
+        String startTime = schedule.getStartTime().getHour()+":"+schedule.getStartTime().getMinute();
         for(Employee emp: scheduledEmployees){
             if(!timeSlotMap.containsKey(startTime) ){
                 timeSlotMap.put(startTime, new ArrayList<>() );
@@ -163,16 +133,6 @@ public class ScheduleService {
                 timeSlotMap.get(startTime).add(emp);
             }
         }
-
-//        List<Pet> findPetsBySchedulesId(long scheduleId);
-
-
-//        Employee employee = scheduleList.get(0).getEmployees().get(0);
-//        employee.setStartTime(schedule.getStartTime());
-//        employee.setEndTime(schedule.getEndTime());
-//        employee.setAllocated(true);
-//        schedule.addEmployee(employee);
-        scheduleRepository.save(retrievedSchedule);
 
     }
 }
