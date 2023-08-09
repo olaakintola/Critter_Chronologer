@@ -3,22 +3,17 @@ package com.udacity.jdnd.course3.critter.activities;
 import com.udacity.jdnd.course3.critter.pet.Pet;
 import com.udacity.jdnd.course3.critter.pet.PetNotFoundException;
 import com.udacity.jdnd.course3.critter.pet.PetRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ActivityService {
+    private final PetRepository petRepository;
+    private final ActivityRepository activityRepository;
 
-    @Autowired
-    PetRepository petRepository;
-
-    @Autowired
-    ActivityRepository activityRepository;
-
-//    public ActivityService(PetRepository petRepository, ActivityRepository activityRepository) {
-//        this.petRepository = petRepository;
-//        this.activityRepository = activityRepository;
-//    }
+    public ActivityService(PetRepository petRepository, ActivityRepository activityRepository) {
+        this.petRepository = petRepository;
+        this.activityRepository = activityRepository;
+    }
 
     public Activity save(long petId, Activity activity) {
         Activity retrievedActivity = petRepository.findById(petId).map(pet -> {

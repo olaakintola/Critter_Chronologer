@@ -68,13 +68,13 @@ public class Pet {
     }
 
     public void removePetActivity(long petActivityId){
-        Activity petActivity = this.petActivities.stream().filter( activity -> activity.getId() == petActivityId)
-                .findFirst().orElse(null);
-        if(petActivity != null){
-            this.petActivities.remove(petActivity);
-            petActivity.getPets().remove(this);
-        }
-
+        this.petActivities.stream()
+                .filter( activity -> activity.getId() == petActivityId)
+                .findFirst()
+                .ifPresent(petActivity -> {
+                    this.petActivities.remove(petActivity);
+                    petActivity.getPets().remove(this);
+                });
     }
 
     public List<Schedule> getSchedules() {
