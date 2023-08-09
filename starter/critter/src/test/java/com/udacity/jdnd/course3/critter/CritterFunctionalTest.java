@@ -311,6 +311,29 @@ public class CritterFunctionalTest {
 
     }
 
+    @Test
+    public void testDeleteCustomer(){
+        CustomerDTO customer1 = createCustomerDTO();
+        CustomerDTO customer2 = createCustomerDTO();
+        CustomerDTO customer3 = createCustomerDTO();
+
+        CustomerDTO newCustomer1 = userController.saveCustomer(customer1);
+        CustomerDTO newCustomer2 = userController.saveCustomer(customer2);
+        CustomerDTO newCustomer3 = userController.saveCustomer(customer3);
+        List<CustomerDTO> retrievedCustomer = userController.getAllCustomers();
+        Assertions.assertEquals(3, retrievedCustomer.size() );
+
+        // test that a single customer is deleted
+        userController.deleteCustomer(newCustomer1.getId());
+        Assertions.assertEquals(2, userController.getAllCustomers().size() );
+
+        // test that all customers are deleted
+        userController.deleteAllCustomers();
+        Assertions.assertTrue(userController.getAllCustomers().isEmpty());
+    }
+
+
+
     private ActivityDTO createActivityDTO(String behaviour) {
         ActivityDTO activityDTO = new ActivityDTO();
         activityDTO.setBehaviour(behaviour);

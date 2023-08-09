@@ -51,6 +51,18 @@ public class UserController {
         return customerDTOList;
     }
 
+    @GetMapping("/employee")
+    public List<EmployeeDTO> getAllEmployees(){
+        List<Employee> employeeList = userService.getAllEmployees();
+        List<EmployeeDTO> employeeDTOList = new ArrayList<>();
+        for(Employee emp: employeeList){
+            EmployeeDTO employeeDTO = new EmployeeDTO();
+            BeanUtils.copyProperties(emp, employeeDTO);
+            employeeDTOList.add(employeeDTO);
+        }
+        return employeeDTOList;
+    }
+
     @GetMapping("/customer/pet/{petId}")
     public CustomerDTO getOwnerByPet(@PathVariable long petId){
         CustomerDTO customerDTO = new CustomerDTO();
@@ -98,17 +110,6 @@ public class UserController {
 
         return employeeDTOList;
     }
-
-//    @GetMapping("/employee/fill-timeslot")
-//    public EmployeeDTO fillScheduleOpenSlotWithEmployee(@RequestBody EmployeeRequestDTO employeeRequestDTO){
-//        Employee employee = new Employee();
-//        BeanUtils.copyProperties(employeeRequestDTO, employee);
-//        Employee employee1 = userService.fillScheduleOpenSlot(employee);
-//        EmployeeDTO employeeDTO = new EmployeeDTO();
-//        BeanUtils.copyProperties(employee1, employeeDTO);
-//        return employeeDTO;
-//    }
-
 
     @DeleteMapping("/customer")
     public void deleteAllCustomers(){
