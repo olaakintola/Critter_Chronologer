@@ -358,6 +358,25 @@ public class CritterFunctionalTest {
         Assertions.assertTrue(userController.getAllEmployees().isEmpty());
     }
 
+    @Test
+    public void testUpdateCustomer(){
+        CustomerDTO customerDTO = createCustomerDTO();
+        CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
+        CustomerDTO retrievedCustomer = userController.getAllCustomers().get(0);
+
+        String newPhoneNumber = "987-654-321";
+        CustomerDTO newCustomerDTO = new CustomerDTO();
+        newCustomerDTO.setName("TestEmployee");
+        newCustomerDTO.setPhoneNumber(newPhoneNumber);
+
+        userController.updateCustomer(retrievedCustomer.getId(), newCustomerDTO);
+        CustomerDTO updatedCustomer = userController.getAllCustomers().get(0);
+
+        Assertions.assertEquals(newCustomer.getName(), updatedCustomer.getName());
+        Assertions.assertEquals(newCustomer.getId(), updatedCustomer.getId());
+        Assertions.assertEquals(newPhoneNumber, updatedCustomer.getPhoneNumber() );
+    }
+
     private ActivityDTO createActivityDTO(String behaviour) {
         ActivityDTO activityDTO = new ActivityDTO();
         activityDTO.setBehaviour(behaviour);

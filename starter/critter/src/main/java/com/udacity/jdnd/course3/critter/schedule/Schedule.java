@@ -17,6 +17,8 @@ public class Schedule {
     @Id
     @GeneratedValue
     private long id;
+
+    // figure out the day from start and end time and get rid of workday and date
     private DayOfWeek workDay;
     private LocalDateTime startTime;
     private LocalDateTime endTime;

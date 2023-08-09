@@ -46,7 +46,7 @@ public class PetService {
     }
 
 
-    public void updateSinglePet(Pet pet, long petId) {
+    public void updateSinglePet(long petId, Pet pet) {
         Pet retrievedPet = petRepository.findById(petId).orElseThrow(() -> new PetNotFoundException());
         retrievedPet.setNotes(pet.getNotes());
         petRepository.save(retrievedPet);

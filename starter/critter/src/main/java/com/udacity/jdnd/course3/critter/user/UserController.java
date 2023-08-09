@@ -132,10 +132,10 @@ public class UserController {
     }
 
     @PutMapping("/customer/{customerId}")
-    public void updateCustomer(@RequestBody CustomerDTO customerDTO, @PathVariable long employeeId) {
+    public void updateCustomer(@PathVariable long customerId, @RequestBody CustomerDTO customerDTO) {
         Customer customer = new Customer();
         BeanUtils.copyProperties(customerDTO, customer );
-        userService.updateSingleCustomer(customer, employeeId);
+        userService.updateSingleCustomer(customerId, customer);
     }
 
     private static List<Long> getPetIds(Customer customer) {

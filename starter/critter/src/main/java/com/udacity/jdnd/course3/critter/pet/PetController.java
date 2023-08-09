@@ -67,10 +67,10 @@ public class PetController {
     }
 
     @PutMapping("/{petId}")
-    public void updatePet(@RequestBody PetDTO petDTO, @PathVariable long petId) {
+    public void updatePet(@PathVariable long petId, @RequestBody PetDTO petDTO) {
         Pet pet = new Pet();
         BeanUtils.copyProperties(petDTO, pet );
-        petService.updateSinglePet(pet, petId);
+        petService.updateSinglePet(petId, pet);
     }
 
     @DeleteMapping("/{petId}")
