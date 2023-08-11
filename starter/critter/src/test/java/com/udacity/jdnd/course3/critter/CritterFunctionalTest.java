@@ -480,6 +480,32 @@ public class CritterFunctionalTest {
         Assertions.assertEquals(addtionalPetName , newlyScheduledPet.getName() );
     }
 
+    @Test
+    public void testAddEmployeeToSchedule(){
+        EmployeeDTO employeeTemp = createEmployeeDTO();
+        employeeTemp.setDaysAvailable(Sets.newHashSet(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY));
+        EmployeeDTO employeeDTO = userController.saveEmployee(employeeTemp);
+        CustomerDTO customerDTO = userController.saveCustomer(createCustomerDTO());
+        PetDTO petTemp = createPetDTO();
+        petTemp.setOwnerId(customerDTO.getId());
+        PetDTO petDTO = petController.savePet(petTemp);
+
+        LocalDate date = LocalDate.of(2019, 12, 25);
+        List<Long> petList = Lists.newArrayList(petDTO.getId());
+        List<Long> employeeList = Lists.newArrayList(employeeDTO.getId());
+        Set<EmployeeSkill> skillSet =  Sets.newHashSet(EmployeeSkill.PETTING);
+
+        ScheduleDTO scheduleDTO = scheduleController.createSchedule(createScheduleDTO(petList, employeeList, date, skillSet));
+
+        String addtionalEmployeeName = "New Employee";
+        EmployeeDTO addedEmployeeDTO = createEmployeeDTO();
+        addedEmployeeDTO.setName(addtionalEmployeeName);
+
+        EmployeeDTO newlyScheduledEmployee = scheduleController.addEmployeeToSchedule(scheduleDTO.getId(), addedEmployeeDTO);
+
+        Assertions.assertEquals(addtionalEmployeeName , newlyScheduledEmployee.getName() );
+    }
+
     private ActivityDTO createActivityDTO(String behaviour) {
         ActivityDTO activityDTO = new ActivityDTO();
         activityDTO.setBehaviour(behaviour);
