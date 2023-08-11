@@ -477,6 +477,7 @@ public class CritterFunctionalTest {
 
         PetDTO newlyScheduledPet = scheduleController.addPetToSchedule(scheduleDTO.getId(), additionalPet);
 
+        Assertions.assertEquals(2, scheduleController.getAllSchedules().get(0).getPetIds().size() );
         Assertions.assertEquals(addtionalPetName , newlyScheduledPet.getName() );
     }
 
@@ -503,6 +504,7 @@ public class CritterFunctionalTest {
 
         EmployeeDTO newlyScheduledEmployee = scheduleController.addEmployeeToSchedule(scheduleDTO.getId(), addedEmployeeDTO);
 
+        Assertions.assertEquals(2, scheduleController.getAllSchedules().get(0).getEmployeeIds().size() );
         Assertions.assertEquals(addtionalEmployeeName , newlyScheduledEmployee.getName() );
     }
 
