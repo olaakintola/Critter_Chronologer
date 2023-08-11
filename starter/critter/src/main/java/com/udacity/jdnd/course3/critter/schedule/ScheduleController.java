@@ -143,7 +143,7 @@ public class ScheduleController {
     }
 
     @PostMapping("/{scheduleId}/pets")
-    public PetDTO addPet(@PathVariable long scheduleId, @RequestBody PetDTO petDTO){
+    public PetDTO addPetToSchedule(@PathVariable long scheduleId, @RequestBody PetDTO petDTO){
         Pet newPet = new Pet();
         BeanUtils.copyProperties(petDTO, newPet, "id");
         Pet newlyAddedPet = scheduleService.addPetToSchedule(scheduleId, newPet);
@@ -157,7 +157,7 @@ public class ScheduleController {
     }
 
     @PostMapping("/{scheduleId}/employees")
-    public EmployeeDTO addEmployee(@PathVariable long scheduleId, @RequestBody EmployeeDTO employeeDTO){
+    public EmployeeDTO addEmployeeToSchedule(@PathVariable long scheduleId, @RequestBody EmployeeDTO employeeDTO){
         Employee emp = new Employee();
         BeanUtils.copyProperties(employeeDTO, emp, "id");
         Employee newlyAddedEmployee = scheduleService.addEmployeeToSchedule(scheduleId, emp);

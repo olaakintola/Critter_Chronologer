@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.udacity.jdnd.course3.critter.activities.ActivityController;
 import com.udacity.jdnd.course3.critter.activities.ActivityDTO;
-import com.udacity.jdnd.course3.critter.pet.Pet;
 import com.udacity.jdnd.course3.critter.pet.PetController;
 import com.udacity.jdnd.course3.critter.pet.PetDTO;
 import com.udacity.jdnd.course3.critter.pet.PetType;
@@ -421,6 +420,37 @@ public class CritterFunctionalTest {
         Assertions.assertEquals(retrievedPetDTO.getType(), updatedPetDTO.getType() );
         Assertions.assertEquals(updatedNote, updatedPetDTO.getNotes() );
 
+    }
+
+    @Test
+    public void testDeleteSchedules(){
+        EmployeeDTO employeeTemp = createEmployeeDTO();
+        employeeTemp.setDaysAvailable(Sets.newHashSet(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY));
+        EmployeeDTO employeeDTO = userController.saveEmployee(employeeTemp);
+        CustomerDTO customerDTO = userController.saveCustomer(createCustomerDTO());
+        PetDTO petTemp = createPetDTO();
+        petTemp.setOwnerId(customerDTO.getId());
+        PetDTO petDTO = petController.savePet(petTemp);
+
+        LocalDate date = LocalDate.of(2019, 12, 25);
+        List<Long> petList = Lists.newArrayList(petDTO.getId());
+        List<Long> employeeList = Lists.newArrayList(employeeDTO.getId());
+        Set<EmployeeSkill> skillSet =  Sets.newHashSet(EmployeeSkill.PETTING);
+
+        ScheduleDTO scheduleDTO1 = scheduleController.createSchedule(createScheduleDTO(petList, employeeList, date, skillSet));
+        ScheduleDTO scheduleDTO2 = scheduleController.createSchedule(createScheduleDTO(petList, employeeList, date, skillSet));
+        ScheduleDTO scheduleDTO3 = scheduleController.createSchedule(createScheduleDTO(petList, employeeList, date, skillSet));
+
+        List<ScheduleDTO> scheduleDTOList = scheduleController.getAllSchedules();
+        Assertions.assertEquals(3, scheduleDTOList.size() );
+
+        // test that a single schedule is deleted
+        scheduleController.deleteSchedule(scheduleDTO1.getId() );
+        Assertions.assertEquals(2, scheduleController.getAllSchedules().size() );
+
+        // test that all schedules are deleted
+        scheduleController.deleteAllSchedules();
+        Assertions.assertTrue(scheduleController.getAllSchedules().isEmpty());
     }
 
     private ActivityDTO createActivityDTO(String behaviour) {
