@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.udacity.jdnd.course3.critter.activities.ActivityController;
 import com.udacity.jdnd.course3.critter.activities.ActivityDTO;
+import com.udacity.jdnd.course3.critter.pet.Pet;
 import com.udacity.jdnd.course3.critter.pet.PetController;
 import com.udacity.jdnd.course3.critter.pet.PetDTO;
 import com.udacity.jdnd.course3.critter.pet.PetType;
@@ -395,6 +396,33 @@ public class CritterFunctionalTest {
         Assertions.assertTrue(petController.getPets().isEmpty());
     }
 
+
+    @Test
+    public void testUpdatePet(){
+        CustomerDTO customerDTO = createCustomerDTO();
+        CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
+
+        PetDTO petDTO = createPetDTO();
+        petDTO.setOwnerId(newCustomer.getId());
+        PetDTO newPet = petController.savePet(petDTO);
+
+        PetDTO retrievedPetDTO = petController.getPets().get(0);
+
+        String updatedNote = "Successful operation completed";
+        PetDTO newPetDTO = new PetDTO();
+        newPetDTO.setName("TestPet");
+        newPetDTO.setType(PetType.CAT);
+        newPetDTO.setNotes(updatedNote);
+
+        petController.updatePet(retrievedPetDTO.getId(), newPetDTO);
+        PetDTO updatedPetDTO = petController.getPets().get(0);
+
+        Assertions.assertEquals(retrievedPetDTO.getId(), updatedPetDTO.getId());
+        Assertions.assertEquals(retrievedPetDTO.getType(), updatedPetDTO.getType() );
+        Assertions.assertEquals(updatedNote, updatedPetDTO.getNotes() );
+
+    }
+
     private ActivityDTO createActivityDTO(String behaviour) {
         ActivityDTO activityDTO = new ActivityDTO();
         activityDTO.setBehaviour(behaviour);
@@ -418,6 +446,7 @@ public class CritterFunctionalTest {
         PetDTO petDTO = new PetDTO();
         petDTO.setName("TestPet");
         petDTO.setType(PetType.CAT);
+        petDTO.setNotes("Booked in for an operation");
         return petDTO;
     }
 
