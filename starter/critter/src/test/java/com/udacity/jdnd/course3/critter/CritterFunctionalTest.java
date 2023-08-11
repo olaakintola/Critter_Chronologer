@@ -377,6 +377,24 @@ public class CritterFunctionalTest {
         Assertions.assertEquals(newPhoneNumber, updatedCustomer.getPhoneNumber() );
     }
 
+    @Test
+    public void testDeletePet(){
+
+        CustomerDTO customerDTO = createCustomerDTO();
+        CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
+
+        PetDTO petDTO = createPetDTO();
+        petDTO.setOwnerId(newCustomer.getId());
+        PetDTO newPet = petController.savePet(petDTO);
+
+        // test that pet is saved
+        Assertions.assertEquals(1, petController.getPets().size() );
+
+        // test that pet is deleted
+        petController.deletePet(newPet.getId() );
+        Assertions.assertTrue(petController.getPets().isEmpty());
+    }
+
     private ActivityDTO createActivityDTO(String behaviour) {
         ActivityDTO activityDTO = new ActivityDTO();
         activityDTO.setBehaviour(behaviour);
