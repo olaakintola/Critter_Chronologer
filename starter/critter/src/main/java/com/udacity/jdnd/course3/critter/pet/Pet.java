@@ -28,7 +28,7 @@ public class Pet {
     private String notes;
 
     @ManyToMany(mappedBy = "pets")
-    private List<Schedule> schedules;
+    private List<Schedule> schedules = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")

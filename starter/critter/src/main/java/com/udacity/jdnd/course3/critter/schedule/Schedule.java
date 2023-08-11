@@ -52,22 +52,6 @@ public class Schedule {
         this.timeSlotMap = timeSlotMap;
     }
 
-    //    public void addPetAndActivity(String pet, String activity){
-//        if(petActivityMap.containsKey(pet) ){
-//            petActivityMap.replace(pet, activity);
-//        }
-//
-//        petActivityMap.put(pet, activity);
-//        //this could lead to a bug
-//        type = PetType.valueOf(pet);
-//    }
-//
-//    public String displayPetActivity(){
-//        String petActivity = "";
-//        String petName = type.name();
-//        return petActivityMap.get(petName);
-//    }
-
     public void addEmployee(Employee employee){
         this.employees.add(employee);
         employee.getSchedule().add(this);
