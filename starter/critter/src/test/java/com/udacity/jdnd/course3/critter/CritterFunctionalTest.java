@@ -531,6 +531,29 @@ public class CritterFunctionalTest {
         Assertions.assertTrue(scheduleController.getAllSchedules().get(0).getPetIds().isEmpty() );
     }
 
+    @Test
+    public void testDeleteEmployeeFromSchedule(){
+        EmployeeDTO employeeTemp = createEmployeeDTO();
+        employeeTemp.setDaysAvailable(Sets.newHashSet(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY));
+        EmployeeDTO employeeDTO = userController.saveEmployee(employeeTemp);
+        CustomerDTO customerDTO = userController.saveCustomer(createCustomerDTO());
+        PetDTO petTemp = createPetDTO();
+        petTemp.setOwnerId(customerDTO.getId());
+        PetDTO petDTO = petController.savePet(petTemp);
+
+        LocalDate date = LocalDate.of(2019, 12, 25);
+        List<Long> petList = Lists.newArrayList(petDTO.getId());
+        List<Long> employeeList = Lists.newArrayList(employeeDTO.getId());
+        Set<EmployeeSkill> skillSet =  Sets.newHashSet(EmployeeSkill.PETTING);
+
+        ScheduleDTO scheduleDTO = scheduleController.createSchedule(createScheduleDTO(petList, employeeList, date, skillSet));
+        Assertions.assertEquals(1, scheduleController.getAllSchedules().get(0).getEmployeeIds().size() );
+
+        // test that the only employee in schedule is being removed
+        scheduleController.deleteEmployeeFromSchedule(scheduleDTO.getId(), employeeDTO.getId());
+        Assertions.assertTrue(scheduleController.getAllSchedules().get(0).getEmployeeIds().isEmpty() );
+    }
+
     private ActivityDTO createActivityDTO(String behaviour) {
         ActivityDTO activityDTO = new ActivityDTO();
         activityDTO.setBehaviour(behaviour);
